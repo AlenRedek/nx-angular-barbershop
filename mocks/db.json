@@ -1,0 +1,181 @@
+{
+  "barbers": [
+    {
+      "id": 1,
+      "firstName": "Jože",
+      "lastName": "Britvica",
+      "workHours": [
+        {
+          "id": 1,
+          "day": 1,
+          "startHour": 7,
+          "endHour": "15",
+          "lunchTime": {
+            "startHour": 11,
+            "durationMinutes": 30
+          }
+        },
+        {
+          "id": 2,
+          "day": 2,
+          "startHour": 7,
+          "endHour": "15",
+          "lunchTime": {
+            "startHour": 11,
+            "durationMinutes": 30
+          }
+        },
+        {
+          "id": 3,
+          "day": 3,
+          "startHour": 7,
+          "endHour": "15",
+          "lunchTime": {
+            "startHour": 11,
+            "durationMinutes": 30
+          }
+        },
+        {
+          "id": 9,
+          "day": 4,
+          "startHour": 12,
+          "endHour": "20",
+          "lunchTime": {
+            "startHour": 16,
+            "durationMinutes": 30
+          }
+        },
+        {
+          "id": 10,
+          "day": 5,
+          "startHour": 12,
+          "endHour": "20",
+          "lunchTime": {
+            "startHour": 16,
+            "durationMinutes": 30
+          }
+        }
+      ]
+    }
+  ],
+  "appointments": [
+    {
+      "id": 1,
+      "startDate": 1579674600,
+      "barberId": 1,
+      "serviceId": 2
+    },
+    {
+      "id": 2,
+      "startDate": 1579680900,
+      "barberId": 1,
+      "serviceId": 1
+    },
+    {
+      "id": 3,
+      "startDate": 1579685400,
+      "barberId": 1,
+      "serviceId": 2
+    },
+    {
+      "id": 4,
+      "startDate": 1579689000,
+      "barberId": 1,
+      "serviceId": 1
+    },
+    {
+      "id": 5,
+      "startDate": 1579691400,
+      "barberId": 1,
+      "serviceId": 2
+    },
+    {
+      "id": 6,
+      "startDate": 1579698600,
+      "barberId": 1,
+      "serviceId": 1
+    }
+  ],
+  "workHours": [
+    {
+      "id": 1,
+      "day": 1,
+      "startHour": 7,
+      "endHour": "15"
+    },
+    {
+      "id": 2,
+      "day": 2,
+      "startHour": 7,
+      "endHour": "15"
+    },
+    {
+      "id": 3,
+      "day": 3,
+      "startHour": 7,
+      "endHour": "15"
+    },
+    {
+      "id": 4,
+      "day": 4,
+      "startHour": 7,
+      "endHour": "15"
+    },
+    {
+      "id": 5,
+      "day": 5,
+      "startHour": 7,
+      "endHour": "15"
+    },
+    {
+      "id": 6,
+      "day": 1,
+      "startHour": 12,
+      "endHour": "20"
+    },
+    {
+      "id": 7,
+      "day": 2,
+      "startHour": 12,
+      "endHour": "20"
+    },
+    {
+      "id": 8,
+      "day": 3,
+      "startHour": 12,
+      "endHour": "20"
+    },
+    {
+      "id": 9,
+      "day": 4,
+      "startHour": 12,
+      "endHour": "20"
+    },
+    {
+      "id": 10,
+      "day": 5,
+      "startHour": 12,
+      "endHour": "20"
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "name": "Shave",
+      "durationMinutes": 20,
+      "price": "15"
+    },
+    {
+      "id": 2,
+      "name": "Haircut",
+      "durationMinutes": 30,
+      "price": "20"
+    },
+    {
+      "id": 3,
+      "name": "Shave + Haircut",
+      "durationMinutes": 50,
+      "price": "30"
+    }
+  ]
+}
