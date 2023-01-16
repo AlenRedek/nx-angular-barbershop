@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { AppointmentComponent } from './appointment/appointment.component';
 
 @Component({
-  standalone: true,
-  imports: [RouterModule, NxWelcomeComponent],
   selector: 'nx-angular-barbershop-root',
+  standalone: true,
+  imports: [RouterModule, AppointmentComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
