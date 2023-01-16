@@ -8,8 +8,5 @@ import { AppointmentComponent } from './appointment/appointment.component';
   standalone: true,
   imports: [RouterModule, AppointmentComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'nx-angular-barbershop';
-}
+export class AppComponent {}
