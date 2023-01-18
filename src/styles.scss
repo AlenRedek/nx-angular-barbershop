@@ -1,9 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500&family=Squada+One&display=swap');
+
 @import 'primeicons/primeicons';
 @import 'primeng/resources/themes/lara-light-blue/theme';
 @import 'primeng/resources/primeng.min';
 
 body {
+  margin: 0;
   background-color: #fcf4ea;
 }
