@@ -3,6 +3,12 @@ body {
   background-color: var(--secondary-color);
   color: var(--text-color);
   font-family: var(--font-family);
+  font-size: 14px;
   font-weight: var(--font-weight);
   letter-spacing: 0.6px;
+}
+
+img {
+  width: 100%;
+  height: auto;
 }
