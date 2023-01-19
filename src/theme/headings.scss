@@ -1,0 +1,23 @@
+%heading {
+  font-family: var(--font-family-secondary);
+  font-weight: var(--font-weight);
+  letter-spacing: 1px;
+}
+
+h1 {
+  @extend %heading;
+  font-size: 58px;
+}
+
+h2 {
+  @extend %heading;
+  font-size: 37px;
+  letter-spacing: 1.8px;
+}
+
+h3 {
+  @extend %heading;
+  font-family: var(--font-family);
+  font-size: 17px;
+  line-height: 1.8;
+}

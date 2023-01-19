@@ -1,0 +1,8 @@
+body {
+  @extend .p-reset;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight);
+  letter-spacing: 0.6px;
+}
