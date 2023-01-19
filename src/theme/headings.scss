@@ -2,11 +2,13 @@
   font-family: var(--font-family-secondary);
   font-weight: var(--font-weight);
   letter-spacing: 1px;
+  margin: 0 0 10px;
 }
 
 h1 {
   @extend %heading;
   font-size: 58px;
+  line-height: 0.9;
 }
 
 h2 {
