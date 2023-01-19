@@ -1,0 +1,25 @@
+@import 'variables';
+
+.appointment {
+  &__title {
+    margin: 22px 0 6px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__excerpt {
+    margin: 0 0 34px;
+    text-align: center;
+  }
+
+  &__image {
+    border: 3px solid var(--primary-color);
+    padding: 10px;
+
+    // CSS variables could not be used in @media declaration
+    @media only screen and (min-width: $xl) {
+      max-width: 892px;
+      margin-left: 227px;
+    }
+  }
+}

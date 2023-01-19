@@ -1,12 +1,15 @@
 import { importProvidersFrom } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app/app.component';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(
+    importProvidersFrom([
+      BrowserModule,
+      BrowserAnimationsModule,
       RouterModule.forRoot([
         {
           path: 'appointment',
@@ -21,6 +24,6 @@ bootstrapApplication(AppComponent, {
           redirectTo: 'appointment',
         },
       ]),
-    ),
+    ]),
   ],
 }).catch((err) => console.error(err));
