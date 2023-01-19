@@ -6,16 +6,20 @@
 
 ## Development server
 
-Run `nx serve nx-angular-barbershop` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run mocked REST API server:
 
-## Understand this workspace
+```shell
+yarn mock:server
+```
 
-Run `nx graph` to see a diagram of the dependencies of the projects.
+Run app dev server:
+
+```shell
+yarn start
+```
+
+Navigate to http://localhost:4200/.
 
 ## Remote caching
 
-Run `npx nx connect-to-nx-cloud` to enable [remote caching](https://nx.app) and make CI faster.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+Nx distributed task execution enables [remote caching](https://nx.app) to speed up the CI workflow.
