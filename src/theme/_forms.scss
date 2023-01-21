@@ -1,0 +1,15 @@
+.field {
+  input {
+    border: 1px solid var(--primary-color-text);
+    font-family: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    outline: none;
+    padding: 10px;
+    width: 100%;
+
+    &:focus {
+      border-color: var(--primary-color);
+    }
+  }
+}
