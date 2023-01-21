@@ -7,10 +7,11 @@
     "yarn": ">= 1.22.19"
   },
   "scripts": {
-    "start": "nx serve",
     "build": "nx build",
-    "test": "nx test",
-    "mock:server": "json-server --watch mocks/db.json"
+    "start:app": "nx serve",
+    "start:server": "json-server --watch mocks/db.json",
+    "start": "yarn start:server & yarn start:app",
+    "test": "nx test"
   },
   "private": true,
   "dependencies": {
