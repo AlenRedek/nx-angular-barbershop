@@ -6,19 +6,13 @@
 
 ## Development server
 
-Run mocked REST API server:
-
-```shell
-yarn mock:server
-```
-
-Run app dev server:
+Run the app with a mocked REST API server:
 
 ```shell
 yarn start
 ```
 
-Navigate to http://localhost:4200/.
+Navigate to http://localhost:4200/. The app will reload automatically if you change any of the source files.
 
 ## Remote caching
 
