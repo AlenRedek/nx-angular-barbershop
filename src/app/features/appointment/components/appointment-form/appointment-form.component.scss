@@ -5,6 +5,7 @@
     position: absolute;
     top: 345px;
     left: 937px;
+    max-width: 438px;
   }
 }
 
@@ -19,5 +20,23 @@
     margin: 0 0 36px;
     text-align: center;
     text-transform: uppercase;
+  }
+
+  &__wrapper {
+    padding: 0 17px;
+  }
+
+  &__spacer {
+    &--1 {
+      margin-bottom: 20px;
+    }
+
+    &--2 {
+      margin-bottom: 10px;
+    }
+
+    &--3 {
+      margin-bottom: 9px;
+    }
   }
 }

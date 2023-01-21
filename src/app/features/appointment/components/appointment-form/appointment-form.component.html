@@ -1,11 +1,47 @@
 <div class="appointment-form__card">
   <h2 class="appointment-form__title">Book Your Appointment</h2>
-  <div class="formgrid grid">
-    <div class="field xl:col-6 col-12">
-      <input id="firstname" type="text" placeholder="First Name" />
+  <form class="appointment-form__wrapper">
+    <div class="formgrid grid">
+      <div class="field xl:col-6 col-12">
+        <input id="first-name" type="text" placeholder="First Name" />
+      </div>
+      <div class="field xl:col-6 col-12">
+        <input id="last-name" type="text" placeholder="Last Name" />
+      </div>
+      <div class="xl:col-12 p-0 hidden xl:block">
+        <div class="appointment-form__spacer--1"></div>
+      </div>
+      <div class="field xl:col-6 col-12">
+        <input id="email" type="text" placeholder="Email" />
+      </div>
+      <div class="field xl:col-6 col-12">
+        <input id="contact-number" type="text" placeholder="Contact number" />
+      </div>
+      <div class="field xl:col-6 col-12">
+        <select id="barber">
+          <option value="" disabled selected hidden>Select Barber</option>
+        </select>
+      </div>
+      <div class="field xl:col-6 col-12">
+        <select id="service">
+          <option value="" disabled selected hidden>Select Service</option>
+        </select>
+      </div>
+      <div class="xl:col-12 p-0 hidden xl:block">
+        <div class="appointment-form__spacer--2"></div>
+      </div>
+      <div class="field xl:col-6 col-12">
+        <input id="date" type="text" placeholder="Select Date" />
+      </div>
+      <div class="field xl:col-6 col-12">
+        <input id="time" type="text" placeholder="Select Time" />
+      </div>
+      <div class="xl:col-12 p-0 hidden xl:block">
+        <div class="appointment-form__spacer--3"></div>
+      </div>
+      <div class="field col-12">
+        <input id="price" placeholder="Select any service." />
+      </div>
     </div>
-    <div class="field xl:col-6 col-12">
-      <input id="lastname" type="text" placeholder="Last Name" />
-    </div>
-  </div>
+  </form>
 </div>
