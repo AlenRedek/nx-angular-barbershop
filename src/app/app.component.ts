@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { AppointmentComponent } from './appointment/appointment.component';
+import { AppointmentComponent } from './features/appointment/appointment.component';
 
 @Component({
   selector: 'nx-angular-barbershop-root',

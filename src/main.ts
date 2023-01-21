@@ -14,7 +14,7 @@ bootstrapApplication(AppComponent, {
         {
           path: 'appointment',
           loadChildren: () =>
-            import('src/app/appointment/appointment.routes').then(
+            import('src/app/features/appointment/appointment.routes').then(
               (m) => m.APPOINTMENT_ROUTES,
             ),
         },

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
+import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
 
 @Component({
   selector: 'nx-angular-barbershop-appointment',
