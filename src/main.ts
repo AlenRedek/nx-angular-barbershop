@@ -1,28 +1,14 @@
 import { importProvidersFrom } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 
 import { AppComponent } from './app/app.component';
+import { APP_ROUTES } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom([
-      BrowserModule,
-      BrowserAnimationsModule,
-      RouterModule.forRoot([
-        {
-          path: 'appointment',
-          loadChildren: () =>
-            import('src/app/features/appointment/appointment.routes').then(
-              (m) => m.APPOINTMENT_ROUTES,
-            ),
-        },
-        {
-          path: '**',
-          redirectTo: 'appointment',
-        },
-      ]),
-    ]),
+    provideRouter(APP_ROUTES),
+    importProvidersFrom([BrowserModule, BrowserAnimationsModule]),
   ],
 }).catch((err) => console.error(err));
