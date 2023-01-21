@@ -1,12 +1,22 @@
+@import 'variables';
+
+:host {
+  @media only screen and (min-width: $xl) {
+    position: absolute;
+    top: 345px;
+    left: 937px;
+  }
+}
+
 .appointment-form {
   &__card {
     background-color: var(--primary-color);
     color: var(--primary-color-text);
-    padding: 40px 30px;
+    padding: 34px 14px;
   }
 
   &__title {
-    margin: 0 0 40px;
+    margin: 0 0 36px;
     text-align: center;
     text-transform: uppercase;
   }
