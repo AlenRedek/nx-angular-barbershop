@@ -19,8 +19,7 @@ bootstrapApplication(AppComponent, {
             ),
         },
         {
-          path: '',
-          pathMatch: 'full',
+          path: '**',
           redirectTo: 'appointment',
         },
       ]),
