@@ -27,7 +27,10 @@ export class AppointmentFormComponent {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    contactNumber: ['', Validators.required],
+    contactNumber: [
+      '',
+      [Validators.required, Validators.pattern('^0[0-9]{8}$')],
+    ],
     barber: ['', Validators.required],
     service: ['', Validators.required],
     date: ['', Validators.required],
