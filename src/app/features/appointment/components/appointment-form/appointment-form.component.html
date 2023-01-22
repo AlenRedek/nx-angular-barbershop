@@ -2,37 +2,37 @@
   <h2 class="appointment-form__title">Book Your Appointment</h2>
   <form class="appointment-form__wrapper">
     <div class="formgrid grid">
-      <div class="field xl:col-6 col-12">
+      <div class="field md:col-6 col-12">
         <input
-          pInputText
-          id="first-name"
           type="text"
+          id="first-name"
+          pInputText
           placeholder="First Name"
         />
       </div>
-      <div class="field xl:col-6 col-12">
-        <input pInputText id="last-name" type="text" placeholder="Last Name" />
+      <div class="field md:col-6 col-12">
+        <input type="text" id="last-name" pInputText placeholder="Last Name" />
       </div>
       <div class="xl:col-12 xl:block hidden p-0">
         <div class="appointment-form__spacer--3"></div>
       </div>
-      <div class="field xl:col-6 col-12">
-        <input pInputText id="email" type="text" placeholder="Email" />
+      <div class="field md:col-6 col-12">
+        <input type="text" id="email" pInputText placeholder="Email" />
       </div>
-      <div class="field xl:col-6 col-12">
+      <div class="field md:col-6 col-12">
         <input
-          pInputText
-          id="contact-number"
           type="text"
+          id="contact-number"
+          pInputText
           placeholder="Contact Number"
         />
       </div>
-      <div class="field xl:col-6 col-12">
+      <div class="field md:col-6 col-12">
         <select id="barber">
           <option value="" disabled selected hidden>Select Barber</option>
         </select>
       </div>
-      <div class="field xl:col-6 col-12">
+      <div class="field md:col-6 col-12">
         <select id="service">
           <option value="" disabled selected hidden>Select Service</option>
         </select>
@@ -40,23 +40,38 @@
       <div class="xl:col-12 xl:block hidden p-0">
         <div class="appointment-form__spacer--2"></div>
       </div>
-      <div class="field xl:col-6 col-12">
-        <input id="date" type="text" placeholder="Select Date" />
+      <div class="field md:col-6 col-12">
+        <p-calendar
+          inputId="date"
+          placeholder="Select Date"
+          styleClass="w-full"
+          dateFormat="dd/mm/yy"
+        ></p-calendar>
       </div>
-      <div class="field xl:col-6 col-12">
-        <input id="time" type="text" placeholder="Select Time" />
+      <div class="field md:col-6 col-12">
+        <p-calendar
+          inputId="time"
+          placeholder="Select Time"
+          styleClass="w-full"
+          [timeOnly]="true"
+        ></p-calendar>
       </div>
       <div class="xl:col-12 xl:block hidden p-0">
         <div class="appointment-form__spacer--1"></div>
       </div>
       <div class="field col-12">
-        <input id="price" placeholder="Select any service." />
+        <input
+          type="text"
+          id="price"
+          pInputText
+          placeholder="Select any service."
+        />
       </div>
       <div class="xl:col-12 xl:block hidden p-0">
         <div class="appointment-form__spacer--4"></div>
       </div>
       <div class="field col-12 m-0">
-        <button pButton type="button" label="Book appointment"></button>
+        <button type="button" pButton label="Book appointment"></button>
       </div>
     </div>
   </form>
