@@ -19,8 +19,18 @@ export class AppointmentComponent implements OnInit {
   public constructor(private readonly barbersApiService: BarbersApiService) {}
 
   public async ngOnInit(): Promise<void> {
-    this.appointments = await this.barbersApiService.getAppointments();
-    this.barbers = await this.barbersApiService.getBarbers();
-    this.services = await this.barbersApiService.getServices();
+    try {
+      const [appointments, barbers, services] = await Promise.all([
+        await this.barbersApiService.getAppointments(),
+        await this.barbersApiService.getBarbers(),
+        await this.barbersApiService.getServices(),
+      ]);
+
+      this.appointments = appointments;
+      this.barbers = barbers;
+      this.services = services;
+    } catch {
+      console.error('Error loading data');
+    }
   }
 }
