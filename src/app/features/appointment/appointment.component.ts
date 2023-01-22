@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Barber } from '@app-core/models';
 import { BarbersApiService } from '@app-core/services';
 import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
 
@@ -11,7 +12,7 @@ import { AppointmentFormComponent } from './components/appointment-form/appointm
   styleUrls: ['./appointment.component.scss'],
 })
 export class AppointmentComponent implements OnInit {
-  public barbers: unknown = [];
+  public barbers: Array<Barber> = [];
 
   public constructor(private readonly barbersApiService: BarbersApiService) {}
 
