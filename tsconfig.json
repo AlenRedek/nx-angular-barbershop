@@ -14,7 +14,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@app-features/*": ["./src/app/features/*"]
+      "@app-features/*": ["./src/app/features/*"],
+      "@app-shared/*": ["./src/app/shared/*"]
     },
     "useDefineForClassFields": false,
     "forceConsistentCasingInFileNames": true,

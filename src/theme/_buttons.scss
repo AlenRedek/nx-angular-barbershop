@@ -13,7 +13,7 @@
 
   &:enabled:hover {
     background-color: transparent;
-    border: 1px solid var(--secondary-color);
+    border-color: var(--secondary-color);
   }
 
   .p-button-label {

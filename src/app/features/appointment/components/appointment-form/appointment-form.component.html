@@ -1,78 +1,131 @@
 <div class="appointment-form__card">
   <h2 class="appointment-form__title">Book Your Appointment</h2>
-  <form class="appointment-form__wrapper">
-    <div class="formgrid grid">
-      <div class="field md:col-6 col-12">
-        <input
-          type="text"
-          id="first-name"
-          pInputText
-          placeholder="First Name"
-        />
+  <div class="appointment-form__wrapper">
+    <form [formGroup]="appointmentForm">
+      <div class="formgrid grid">
+        <div class="field md:col-6 col-12">
+          <input
+            type="text"
+            id="first-name"
+            formControlName="firstName"
+            pInputText
+            placeholder="First Name"
+          />
+          <small
+            class="p-error block"
+            [nxAngularBarbershopFormFieldError]="
+              appointmentForm.get('firstName')
+            "
+            >Please enter your first name</small
+          >
+        </div>
+        <div class="field md:col-6 col-12">
+          <input
+            type="text"
+            id="last-name"
+            formControlName="lastName"
+            pInputText
+            placeholder="Last Name"
+          />
+          <small
+            class="p-error block"
+            [nxAngularBarbershopFormFieldError]="
+              appointmentForm.get('lastName')
+            "
+            >Please enter your last name</small
+          >
+        </div>
+        <div class="field md:col-6 col-12">
+          <input
+            type="text"
+            id="email"
+            formControlName="email"
+            pInputText
+            placeholder="Email"
+          />
+          <small
+            class="p-error block"
+            [nxAngularBarbershopFormFieldError]="appointmentForm.get('email')"
+            >Please enter a valid email</small
+          >
+        </div>
+        <div class="field md:col-6 col-12">
+          <input
+            type="text"
+            id="contact-number"
+            formControlName="contactNumber"
+            pInputText
+            placeholder="Contact Number"
+          />
+          <small
+            class="p-error block"
+            [nxAngularBarbershopFormFieldError]="
+              appointmentForm.get('contactNumber')
+            "
+            >Please enter phone number</small
+          >
+        </div>
+        <div class="field md:col-6 col-12">
+          <select id="barber" formControlName="barber">
+            <option value="" disabled selected hidden>Select Barber</option>
+          </select>
+          <small
+            class="p-error block"
+            [nxAngularBarbershopFormFieldError]="appointmentForm.get('barber')"
+            >Please select a barber</small
+          >
+        </div>
+        <div class="field md:col-6 col-12">
+          <select id="service" formControlName="service">
+            <option value="" disabled selected hidden>Select Service</option>
+          </select>
+          <small
+            class="p-error block"
+            [nxAngularBarbershopFormFieldError]="appointmentForm.get('service')"
+            >Please select a service</small
+          >
+        </div>
+        <div class="field md:col-6 col-12">
+          <p-calendar
+            inputId="date"
+            formControlName="date"
+            placeholder="Select Date"
+            styleClass="w-full"
+            dateFormat="dd/mm/yy"
+          ></p-calendar>
+          <small
+            class="p-error block"
+            [nxAngularBarbershopFormFieldError]="appointmentForm.get('date')"
+            >Please pick a date</small
+          >
+        </div>
+        <div class="field md:col-6 col-12">
+          <p-calendar
+            inputId="time"
+            formControlName="time"
+            placeholder="Select Time"
+            styleClass="w-full"
+            [timeOnly]="true"
+          ></p-calendar>
+          <small
+            class="p-error block"
+            [nxAngularBarbershopFormFieldError]="appointmentForm.get('time')"
+            >Please pick a time</small
+          >
+        </div>
+        <div class="field col-12 mb-6">
+          <input
+            type="text"
+            id="price"
+            formControlName="price"
+            pInputText
+            placeholder="Select any service."
+          />
+        </div>
+        <div class="field col-12 m-0">
+          <button type="button" pButton label="Book appointment"></button>
+        </div>
       </div>
-      <div class="field md:col-6 col-12">
-        <input type="text" id="last-name" pInputText placeholder="Last Name" />
-      </div>
-      <div class="xl:col-12 xl:block hidden p-0">
-        <div class="appointment-form__spacer--3"></div>
-      </div>
-      <div class="field md:col-6 col-12">
-        <input type="text" id="email" pInputText placeholder="Email" />
-      </div>
-      <div class="field md:col-6 col-12">
-        <input
-          type="text"
-          id="contact-number"
-          pInputText
-          placeholder="Contact Number"
-        />
-      </div>
-      <div class="field md:col-6 col-12">
-        <select id="barber">
-          <option value="" disabled selected hidden>Select Barber</option>
-        </select>
-      </div>
-      <div class="field md:col-6 col-12">
-        <select id="service">
-          <option value="" disabled selected hidden>Select Service</option>
-        </select>
-      </div>
-      <div class="xl:col-12 xl:block hidden p-0">
-        <div class="appointment-form__spacer--2"></div>
-      </div>
-      <div class="field md:col-6 col-12">
-        <p-calendar
-          inputId="date"
-          placeholder="Select Date"
-          styleClass="w-full"
-          dateFormat="dd/mm/yy"
-        ></p-calendar>
-      </div>
-      <div class="field md:col-6 col-12">
-        <p-calendar
-          inputId="time"
-          placeholder="Select Time"
-          styleClass="w-full"
-          [timeOnly]="true"
-        ></p-calendar>
-      </div>
-      <div class="xl:col-12 xl:block hidden p-0">
-        <div class="appointment-form__spacer--1"></div>
-      </div>
-      <div class="field col-12">
-        <input
-          type="text"
-          id="price"
-          pInputText
-          placeholder="Select any service."
-        />
-      </div>
-      <div class="xl:col-12 xl:block hidden p-0">
-        <div class="appointment-form__spacer--4"></div>
-      </div>
-      <div class="field col-12 m-0">
-        <button type="button" pButton label="Book appointment"></button>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
