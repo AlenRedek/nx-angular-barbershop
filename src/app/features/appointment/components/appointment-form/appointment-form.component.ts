@@ -35,7 +35,7 @@ export class AppointmentFormComponent {
     service: ['', Validators.required],
     date: ['', Validators.required],
     time: ['', Validators.required],
-    price: ['', Validators.required],
+    price: [{ value: '', disabled: true }, Validators.required],
   });
 
   public constructor(private readonly formBuilder: FormBuilder) {}
