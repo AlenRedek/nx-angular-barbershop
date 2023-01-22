@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,13 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 @Component({
   selector: 'nx-angular-barbershop-appointment-form',
   standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    CalendarModule,
-    InputTextModule,
-  ],
+  imports: [ReactiveFormsModule, ButtonModule, CalendarModule, InputTextModule],
   templateUrl: './appointment-form.component.html',
   styleUrls: ['./appointment-form.component.scss'],
 })
