@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
+import { BarbersApiService } from '@app-core/services';
 import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
 
 @Component({
@@ -9,4 +10,12 @@ import { AppointmentFormComponent } from './components/appointment-form/appointm
   templateUrl: './appointment.component.html',
   styleUrls: ['./appointment.component.scss'],
 })
-export class AppointmentComponent {}
+export class AppointmentComponent implements OnInit {
+  public barbers: unknown = [];
+
+  public constructor(private readonly barbersApiService: BarbersApiService) {}
+
+  public async ngOnInit(): Promise<void> {
+    this.barbers = await this.barbersApiService.getBarbers();
+  }
+}
