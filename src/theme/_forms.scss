@@ -1,0 +1,33 @@
+%field {
+  border: 1px solid var(--primary-color-text);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  outline: none;
+  width: 100%;
+
+  &:enabled:focus,
+  &:enabled:hover {
+    border-color: var(--primary-color-text);
+  }
+
+  &::placeholder {
+    color: var(--text-color-secondary);
+  }
+}
+
+.field {
+  input {
+    @extend %field;
+    border-radius: 0;
+    padding: 10px 10px 9px;
+  }
+
+  select {
+    @extend %field;
+    border-radius: var(--border-radius);
+    color: var(--text-color-secondary);
+    padding: 10px 15px 9px 4px;
+  }
+}
