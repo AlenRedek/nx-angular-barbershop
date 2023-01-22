@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
+import { Appointment, Barber, Service } from '@app-core/models';
+import { BarbersApiService } from '@app-core/services';
 import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
 
 @Component({
@@ -9,4 +11,26 @@ import { AppointmentFormComponent } from './components/appointment-form/appointm
   templateUrl: './appointment.component.html',
   styleUrls: ['./appointment.component.scss'],
 })
-export class AppointmentComponent {}
+export class AppointmentComponent implements OnInit {
+  public appointments: Array<Appointment> = [];
+  public barbers: Array<Barber> = [];
+  public services: Array<Service> = [];
+
+  public constructor(private readonly barbersApiService: BarbersApiService) {}
+
+  public async ngOnInit(): Promise<void> {
+    try {
+      const [appointments, barbers, services] = await Promise.all([
+        await this.barbersApiService.getAppointments(),
+        await this.barbersApiService.getBarbers(),
+        await this.barbersApiService.getServices(),
+      ]);
+
+      this.appointments = appointments;
+      this.barbers = barbers;
+      this.services = services;
+    } catch {
+      console.error('Error loading data');
+    }
+  }
+}
