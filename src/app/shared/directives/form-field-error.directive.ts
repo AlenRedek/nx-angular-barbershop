@@ -30,7 +30,7 @@ export class FormFieldErrorDirective implements OnDestroy {
   private subscribeToControl(): void {
     this.subscriptions.add(
       this.control?.valueChanges
-        .pipe(debounceTime(1000), startWith(null))
+        .pipe(debounceTime(500), startWith(null))
         .subscribe(() => this.handleControlError()),
     );
   }
