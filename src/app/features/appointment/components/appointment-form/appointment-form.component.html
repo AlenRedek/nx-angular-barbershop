@@ -68,6 +68,9 @@
         <div class="field md:col-6 col-12">
           <select id="barber" formControlName="barber">
             <option value="" disabled selected hidden>Select Barber</option>
+            <option *ngFor="let barber of barbers" [value]="barber.id">
+              {{ barber.firstName + ' ' + barber.lastName }}
+            </option>
           </select>
           <small
             class="p-error block"
@@ -78,6 +81,9 @@
         <div class="field md:col-6 col-12">
           <select id="service" formControlName="service">
             <option value="" disabled selected hidden>Select Service</option>
+            <option *ngFor="let service of services" [value]="service.id">
+              {{ service.name }}
+            </option>
           </select>
           <small
             class="p-error block"

@@ -17,7 +17,11 @@
       />
     </div>
     <div class="col-12">
-      <nx-angular-barbershop-appointment-form></nx-angular-barbershop-appointment-form>
+      <nx-angular-barbershop-appointment-form
+        [appointments]="appointments"
+        [barbers]="barbers"
+        [services]="services"
+      ></nx-angular-barbershop-appointment-form>
     </div>
     <div class="xl:col-12 xl:block hidden my-6"></div>
   </div>

@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 
+import { Appointment, Barber, Service } from '@app-core/models';
 import { FormFieldErrorDirective } from '@app-shared/directives';
 
 @Component({
   selector: 'nx-angular-barbershop-appointment-form',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     ButtonModule,
     CalendarModule,
@@ -20,6 +23,15 @@ import { FormFieldErrorDirective } from '@app-shared/directives';
   styleUrls: ['./appointment-form.component.scss'],
 })
 export class AppointmentFormComponent {
+  @Input()
+  public appointments: Array<Appointment> = [];
+
+  @Input()
+  public barbers: Array<Barber> = [];
+
+  @Input()
+  public services: Array<Service> = [];
+
   public appointmentForm = this.formBuilder.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
