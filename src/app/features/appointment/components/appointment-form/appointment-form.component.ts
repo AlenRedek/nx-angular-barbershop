@@ -4,10 +4,18 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 
+import { FormFieldErrorDirective } from '@app-shared/directives';
+
 @Component({
   selector: 'nx-angular-barbershop-appointment-form',
   standalone: true,
-  imports: [ReactiveFormsModule, ButtonModule, CalendarModule, InputTextModule],
+  imports: [
+    ReactiveFormsModule,
+    ButtonModule,
+    CalendarModule,
+    InputTextModule,
+    FormFieldErrorDirective,
+  ],
   templateUrl: './appointment-form.component.html',
   styleUrls: ['./appointment-form.component.scss'],
 })
