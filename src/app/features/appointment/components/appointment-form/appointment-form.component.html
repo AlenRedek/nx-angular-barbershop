@@ -81,7 +81,7 @@
         <div class="field md:col-6 col-12">
           <select id="service" formControlName="service">
             <option value="" disabled selected hidden>Select Service</option>
-            <option *ngFor="let service of services" [value]="service.id">
+            <option *ngFor="let service of services" [value]="service.price">
               {{ service.name }}
             </option>
           </select>
@@ -123,9 +123,11 @@
           <input
             type="text"
             id="price"
+            class="appointment-form__price"
             formControlName="price"
             pInputText
             placeholder="Select any service."
+            [value]="'Price is ' + appointmentForm.value.service + ' €'"
           />
         </div>
         <div class="field col-12 m-0">

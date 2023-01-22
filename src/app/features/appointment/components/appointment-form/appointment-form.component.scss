@@ -25,4 +25,9 @@
   &__wrapper {
     padding: 0 17px;
   }
+
+  &__price {
+    cursor: not-allowed;
+    opacity: 1;
+  }
 }
