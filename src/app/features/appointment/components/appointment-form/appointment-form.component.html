@@ -1,7 +1,7 @@
 <div class="appointment-form__card">
   <h2 class="appointment-form__title">Book Your Appointment</h2>
   <div class="appointment-form__wrapper">
-    <form [formGroup]="appointmentForm">
+    <form [formGroup]="appointmentForm" (ngSubmit)="onFormSubmit()">
       <div class="formgrid grid">
         <div class="field md:col-6 col-12">
           <input
@@ -139,7 +139,7 @@
         </div>
         <div class="field col-12 m-0">
           <button
-            type="button"
+            type="submit"
             pButton
             label="Book appointment"
             [disabled]="!appointmentForm.valid"

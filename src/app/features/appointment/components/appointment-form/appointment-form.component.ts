@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import * as dayjs from 'dayjs';
@@ -45,6 +47,9 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
   @Input()
   public services: Array<Service> = [];
 
+  @Output()
+  public formSubmit = new EventEmitter<AppointmentData>();
+
   public appointmentForm = this.formBuilder.group<AppointmentForm>({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -72,6 +77,16 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  public onFormSubmit(): void {
+    const { barber, service, time } = this.appointmentForm.value;
+
+    this.formSubmit.next({
+      barber,
+      date: time?.toDate(),
+      service,
+    } as AppointmentData);
   }
 
   private handleFormChanges(): void {
