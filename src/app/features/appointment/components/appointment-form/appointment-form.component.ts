@@ -67,6 +67,14 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
   public constructor(private readonly formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
+    this.handleFormChanges();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  private handleFormChanges(): void {
     this.subscriptions.add(
       combineLatest([
         this.appointmentForm.get('barber')?.valueChanges ?? of(null),
@@ -80,15 +88,13 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
         .subscribe((data) => {
           this.times = this.getTimes(data as AppointmentData);
 
-        this.times.length
-          ? this.appointmentForm.get('time')?.enable()
-          : this.appointmentForm.get('time')?.disable();
-      }),
-    );
-  }
+          this.times.length
+            ? this.appointmentForm.get('time')?.enable()
+            : this.appointmentForm.get('time')?.disable();
 
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+          this.appointmentForm.get('time')?.patchValue(null);
+        }),
+    );
   }
 
   private getTimes(data: AppointmentData): Array<dayjs.Dayjs> {
