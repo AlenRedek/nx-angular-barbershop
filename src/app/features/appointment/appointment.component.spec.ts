@@ -1,4 +1,5 @@
 import { BarbersApiService } from '@app-core/services';
+
 import { AppointmentComponent } from './appointment.component';
 
 describe('AppointmentComponent', () => {

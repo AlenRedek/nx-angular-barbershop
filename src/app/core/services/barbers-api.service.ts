@@ -10,6 +10,12 @@ import { Appointment, Barber, Service } from '@app-core/models';
 export class BarbersApiService {
   public constructor(private readonly httpClient: HttpClient) {}
 
+  public createAppointment(params: Appointment): Promise<Appointment> {
+    return lastValueFrom(
+      this.httpClient.post<Appointment>('/api/appointments', params),
+    );
+  }
+
   public getAppointments(): Promise<Array<Appointment>> {
     return lastValueFrom(
       this.httpClient.get<Array<Appointment>>('/api/appointments'),

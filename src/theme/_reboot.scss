@@ -1,3 +1,10 @@
+%disabled {
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 1;
+  }
+}
+
 body {
   @extend .p-reset;
   background-color: var(--body-color);

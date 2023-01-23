@@ -4,9 +4,7 @@ export const APP_ROUTES: Array<Route> = [
   {
     path: 'appointment',
     loadChildren: () =>
-      import('@app-features/appointment/appointment.routes').then(
-        (m) => m.APPOINTMENT_ROUTES,
-      ),
+      import('@app-features/appointment').then((m) => m.APPOINTMENT_ROUTES),
   },
   {
     path: '**',

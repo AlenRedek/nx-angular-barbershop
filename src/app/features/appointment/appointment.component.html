@@ -21,6 +21,7 @@
         [appointments]="appointments"
         [barbers]="barbers"
         [services]="services"
+        (formSubmit)="onFormSubmit($event)"
       ></nx-angular-barbershop-appointment-form>
     </div>
     <div class="xl:col-12 xl:block hidden my-6"></div>

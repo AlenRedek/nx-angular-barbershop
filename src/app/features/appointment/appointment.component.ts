@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import * as dayjs from 'dayjs';
 
 import { Appointment, Barber, Service } from '@app-core/models';
 import { BarbersApiService } from '@app-core/services';
-import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
+
+import { AppointmentFormComponent } from './components';
+import { AppointmentData } from './models';
 
 @Component({
   selector: 'nx-angular-barbershop-appointment',
@@ -31,6 +34,24 @@ export class AppointmentComponent implements OnInit {
       this.services = services;
     } catch {
       console.error('Error loading data');
+    }
+  }
+
+  public async onFormSubmit(formData: AppointmentData): Promise<void> {
+    try {
+      const params: Appointment = {
+        barberId: formData.barber.id,
+        serviceId: formData.service.id,
+        startDate: dayjs(formData.date).unix(),
+      };
+
+      const appointment = await this.barbersApiService.createAppointment(
+        params,
+      );
+
+      this.appointments = [...this.appointments, appointment];
+    } catch {
+      console.error('Error while creating new appointment');
     }
   }
 }
