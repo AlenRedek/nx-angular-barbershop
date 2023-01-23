@@ -3,7 +3,8 @@ import * as dayjs from 'dayjs';
 
 import { Appointment, Barber, Service } from '@app-core/models';
 import { BarbersApiService } from '@app-core/services';
-import { AppointmentFormComponent } from './components/appointment-form/appointment-form.component';
+
+import { AppointmentFormComponent } from './components';
 import { AppointmentData } from './models';
 
 @Component({
