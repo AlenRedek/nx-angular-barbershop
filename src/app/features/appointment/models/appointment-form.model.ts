@@ -1,4 +1,5 @@
 import { Validators } from '@angular/forms';
+import { Dayjs } from 'dayjs';
 
 import { Barber, Service } from '@app-core/models';
 
@@ -10,6 +11,6 @@ export interface AppointmentForm {
   barber: Array<Barber | null | Validators>;
   service: Array<Service | null | Validators>;
   date: Array<Date | null | Validators>;
-  time: Array<string | Validators>;
+  time: Array<Dayjs | Validators>;
   price: Array<string | Validators>;
 }

@@ -7,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import * as dayjs from 'dayjs';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -52,9 +53,10 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
     barber: [null, Validators.required],
     service: [null, Validators.required],
     date: [null, Validators.required],
-    time: [{ value: '', disabled: true }, Validators.required],
+    time: [{ value: null, disabled: true }, Validators.required],
     price: [{ value: '', disabled: true }, Validators.required],
   });
+  public times: Array<dayjs.Dayjs> = [];
   public minDate = new Date();
 
   private readonly subscriptions: Subscription = new Subscription();
@@ -68,13 +70,40 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
         this.appointmentForm.get('service')?.valueChanges ?? of(null),
         this.appointmentForm.get('date')?.valueChanges ?? of(null),
       ]).subscribe(([barber, service, date]) => {
-        const day = date?.getDay();
-        console.log(barber, service, day);
+        this.setTimes(barber, service, date);
+
+        this.times.length
+          ? this.appointmentForm.get('time')?.enable()
+          : this.appointmentForm.get('time')?.disable();
       }),
     );
   }
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  private setTimes(
+    barber: Barber | null,
+    service: Service | null,
+    date: Date | null,
+  ): void {
+    const day = dayjs(date).day();
+    const workHours = barber?.workHours.find((hours) => hours.day === day);
+
+    if (!date || !service || !workHours) {
+      return;
+    }
+
+    const times = [];
+    let time = dayjs(date).hour(workHours.startHour).minute(0).second(0);
+
+    while (time.hour() < Number(workHours.endHour)) {
+      times.push(time);
+
+      time = time.add(service.durationMinutes, 'minutes');
+    }
+
+    this.times = times;
   }
 }

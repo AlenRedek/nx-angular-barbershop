@@ -113,13 +113,14 @@
           >
         </div>
         <div class="field md:col-6 col-12">
-          <p-calendar
-            inputId="time"
-            formControlName="time"
-            placeholder="Select Time"
-            styleClass="w-full"
-            [timeOnly]="true"
-          ></p-calendar>
+          <select id="time" formControlName="time">
+            <option [ngValue]="null" disabled selected hidden>
+              Select Time
+            </option>
+            <option *ngFor="let time of times" [ngValue]="time">
+              {{ time.format('HH:mm') }}
+            </option>
+          </select>
           <small
             class="p-error block"
             [nxAngularBarbershopFormFieldError]="appointmentForm.get('time')"
