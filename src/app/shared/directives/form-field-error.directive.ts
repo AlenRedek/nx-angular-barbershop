@@ -19,7 +19,7 @@ export class FormFieldErrorDirective implements OnDestroy {
 
   private control: AbstractControl | null = null;
   private errorMessage = '';
-  private subscriptions: Subscription = new Subscription();
+  private readonly subscriptions: Subscription = new Subscription();
 
   public constructor(private readonly elementRef: ElementRef) {}
 

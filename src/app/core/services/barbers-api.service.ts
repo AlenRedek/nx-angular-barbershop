@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
-import { Appointment, Barber, Service } from '../models';
+import { Appointment, Barber, Service } from '@app-core/models';
 
 @Injectable({
   providedIn: 'root',

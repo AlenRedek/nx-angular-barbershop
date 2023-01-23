@@ -67,8 +67,10 @@
         </div>
         <div class="field md:col-6 col-12">
           <select id="barber" formControlName="barber">
-            <option value="" disabled selected hidden>Select Barber</option>
-            <option *ngFor="let barber of barbers" [value]="barber.id">
+            <option [ngValue]="null" disabled selected hidden>
+              Select Barber
+            </option>
+            <option *ngFor="let barber of barbers" [ngValue]="barber">
               {{ barber.firstName + ' ' + barber.lastName }}
             </option>
           </select>
@@ -80,8 +82,10 @@
         </div>
         <div class="field md:col-6 col-12">
           <select id="service" formControlName="service">
-            <option value="" disabled selected hidden>Select Service</option>
-            <option *ngFor="let service of services" [value]="service.price">
+            <option [ngValue]="null" disabled selected hidden>
+              Select Service
+            </option>
+            <option *ngFor="let service of services" [ngValue]="service">
               {{ service.name }}
             </option>
           </select>
@@ -98,6 +102,9 @@
             placeholder="Select Date"
             styleClass="w-full"
             dateFormat="dd/mm/yy"
+            [disabledDays]="[0, 6]"
+            [firstDayOfWeek]="1"
+            [minDate]="minDate"
           ></p-calendar>
           <small
             class="p-error block"
@@ -127,7 +134,7 @@
             formControlName="price"
             pInputText
             placeholder="Select any service."
-            [value]="'Price is ' + appointmentForm.value.service + ' €'"
+            [value]="'Price is ' + appointmentForm.value.service?.price + ' €'"
           />
         </div>
         <div class="field col-12 m-0">
