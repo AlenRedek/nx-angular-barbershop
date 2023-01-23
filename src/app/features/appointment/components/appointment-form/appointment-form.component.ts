@@ -11,10 +11,13 @@ import * as dayjs from 'dayjs';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
-import { combineLatest, of, Subscription } from 'rxjs';
+import { combineLatest, filter, map, of, Subscription } from 'rxjs';
 
 import { Appointment, Barber, Service } from '@app-core/models';
-import { AppointmentForm } from '@app-features/appointment/models';
+import {
+  AppointmentData,
+  AppointmentForm,
+} from '@app-features/appointment/models';
 import { FormFieldErrorDirective } from '@app-shared/directives';
 
 @Component({
@@ -67,10 +70,15 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       combineLatest([
         this.appointmentForm.get('barber')?.valueChanges ?? of(null),
-        this.appointmentForm.get('service')?.valueChanges ?? of(null),
         this.appointmentForm.get('date')?.valueChanges ?? of(null),
-      ]).subscribe(([barber, service, date]) => {
-        this.setTimes(barber, service, date);
+        this.appointmentForm.get('service')?.valueChanges ?? of(null),
+      ])
+        .pipe(
+          filter((data) => data.every((item) => !!item)),
+          map(([barber, date, service]) => ({ barber, date, service })),
+        )
+        .subscribe((data) => {
+          this.times = this.getTimes(data as AppointmentData);
 
         this.times.length
           ? this.appointmentForm.get('time')?.enable()
@@ -83,19 +91,16 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private setTimes(
-    barber: Barber | null,
-    service: Service | null,
-    date: Date | null,
-  ): void {
+  private getTimes(data: AppointmentData): Array<dayjs.Dayjs> {
+    const { barber, date, service } = data;
     const day = dayjs(date).day();
     const workHours = barber?.workHours.find((hours) => hours.day === day);
+    const times: Array<dayjs.Dayjs> = [];
 
-    if (!date || !service || !workHours) {
-      return;
+    if (!workHours) {
+      return times;
     }
 
-    const times = [];
     let time = dayjs(date).hour(workHours.startHour).minute(0).second(0);
 
     while (time.hour() < Number(workHours.endHour)) {
@@ -104,6 +109,6 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
       time = time.add(service.durationMinutes, 'minutes');
     }
 
-    this.times = times;
+    return times;
   }
 }
