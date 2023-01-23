@@ -67,7 +67,12 @@
         </div>
         <div class="field md:col-6 col-12">
           <select id="barber" formControlName="barber">
-            <option value="" disabled selected hidden>Select Barber</option>
+            <option [ngValue]="null" disabled selected hidden>
+              Select Barber
+            </option>
+            <option *ngFor="let barber of barbers" [ngValue]="barber">
+              {{ barber.firstName + ' ' + barber.lastName }}
+            </option>
           </select>
           <small
             class="p-error block"
@@ -77,7 +82,12 @@
         </div>
         <div class="field md:col-6 col-12">
           <select id="service" formControlName="service">
-            <option value="" disabled selected hidden>Select Service</option>
+            <option [ngValue]="null" disabled selected hidden>
+              Select Service
+            </option>
+            <option *ngFor="let service of services" [ngValue]="service">
+              {{ service.name }}
+            </option>
           </select>
           <small
             class="p-error block"
@@ -92,6 +102,9 @@
             placeholder="Select Date"
             styleClass="w-full"
             dateFormat="dd/mm/yy"
+            [disabledDays]="[0, 6]"
+            [firstDayOfWeek]="1"
+            [minDate]="minDate"
           ></p-calendar>
           <small
             class="p-error block"
@@ -100,13 +113,14 @@
           >
         </div>
         <div class="field md:col-6 col-12">
-          <p-calendar
-            inputId="time"
-            formControlName="time"
-            placeholder="Select Time"
-            styleClass="w-full"
-            [timeOnly]="true"
-          ></p-calendar>
+          <select id="time" formControlName="time">
+            <option [ngValue]="null" disabled selected hidden>
+              Select Time
+            </option>
+            <option *ngFor="let time of times" [ngValue]="time">
+              {{ time.format('HH:mm') }}
+            </option>
+          </select>
           <small
             class="p-error block"
             [nxAngularBarbershopFormFieldError]="appointmentForm.get('time')"
@@ -120,6 +134,7 @@
             formControlName="price"
             pInputText
             placeholder="Select any service."
+            [value]="'Price is ' + appointmentForm.value.service?.price + ' €'"
           />
         </div>
         <div class="field col-12 m-0">

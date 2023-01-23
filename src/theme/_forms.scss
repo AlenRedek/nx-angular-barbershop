@@ -12,6 +12,11 @@
     border-color: var(--primary-color-text);
   }
 
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
   &::placeholder {
     color: var(--text-color-secondary);
   }

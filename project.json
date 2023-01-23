@@ -20,7 +20,8 @@
         "stylePreprocessorOptions": {
           "includePaths": ["./src/theme"]
         },
-        "scripts": []
+        "scripts": [],
+        "allowedCommonJsDependencies": ["dayjs"]
       },
       "configurations": {
         "production": {
