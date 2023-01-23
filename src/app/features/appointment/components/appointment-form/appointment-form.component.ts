@@ -114,8 +114,8 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
 
   private getTimes(data: AppointmentData): Array<dayjs.Dayjs> {
     const { barber, date, service } = data;
-    const day = dayjs(date).day();
-    const workHours = barber?.workHours.find((hours) => hours.day === day);
+    const dayNumber = dayjs(date).day();
+    const workHours = barber.workHours.find((hours) => hours.day === dayNumber);
     const times: Array<dayjs.Dayjs> = [];
 
     if (!workHours) {

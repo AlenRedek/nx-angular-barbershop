@@ -38,12 +38,20 @@ export class AppointmentComponent implements OnInit {
   }
 
   public async onFormSubmit(formData: AppointmentData): Promise<void> {
-    const params: Appointment = {
-      barberId: formData.barber.id,
-      serviceId: formData.service.id,
-      startDate: dayjs(formData.date).unix(),
-    };
+    try {
+      const params: Appointment = {
+        barberId: formData.barber.id,
+        serviceId: formData.service.id,
+        startDate: dayjs(formData.date).unix(),
+      };
 
-    await this.barbersApiService.createAppointment(params);
+      const appointment = await this.barbersApiService.createAppointment(
+        params,
+      );
+
+      this.appointments = [...this.appointments, appointment];
+    } catch {
+      console.error('Error while creating new appointment');
+    }
   }
 }
