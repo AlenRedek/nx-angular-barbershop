@@ -7,14 +7,11 @@
   outline: none;
   width: 100%;
 
+  @extend %disabled;
+
   &:enabled:focus,
   &:enabled:hover {
     border-color: var(--primary-color-text);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 1;
   }
 
   &::placeholder {
