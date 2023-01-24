@@ -49,11 +49,7 @@ export class AppointmentComponent implements OnInit {
         startDate: dayjs(formData.date).unix(),
       };
 
-      const appointment = await this.barbersApiService.createAppointment(
-        params,
-      );
-
-      this.appointments = [...this.appointments, appointment];
+      await this.barbersApiService.createAppointment(params);
 
       this.router.navigate(['/success']);
     } catch {
