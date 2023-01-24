@@ -3,6 +3,8 @@
   font-weight: var(--font-weight);
   letter-spacing: 1px;
   margin: 0 0 10px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 h1 {
@@ -22,4 +24,5 @@ h3 {
   font-family: var(--font-family);
   font-size: 17px;
   line-height: 1.793;
+  text-transform: capitalize;
 }
