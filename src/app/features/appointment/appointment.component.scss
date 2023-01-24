@@ -10,13 +10,10 @@
   }
 
   &__image {
-    border: 3px solid var(--primary-color);
-    padding: 10px;
-
     // CSS variables could not be used in @media declaration
     @media only screen and (min-width: $xl) {
-      max-width: 892px;
       margin-left: 227px;
+      max-width: 892px;
     }
   }
 }
