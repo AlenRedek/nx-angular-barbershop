@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as dayjs from 'dayjs';
 
+import { AppRoute } from '@app-core/enums';
 import { Appointment, Barber, Service } from '@app-core/models';
 import { BarbersApiService } from '@app-core/services';
 
@@ -51,7 +52,7 @@ export class AppointmentComponent implements OnInit {
 
       await this.barbersApiService.createAppointment(params);
 
-      this.router.navigate(['/success']);
+      this.router.navigate([AppRoute.Success]);
     } catch {
       console.error('Error while creating new appointment');
     }
