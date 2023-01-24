@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import * as dayjs from 'dayjs';
 
 import { Appointment, Barber, Service } from '@app-core/models';
@@ -19,7 +20,10 @@ export class AppointmentComponent implements OnInit {
   public barbers: Array<Barber> = [];
   public services: Array<Service> = [];
 
-  public constructor(private readonly barbersApiService: BarbersApiService) {}
+  public constructor(
+    private readonly barbersApiService: BarbersApiService,
+    private readonly router: Router,
+  ) {}
 
   public async ngOnInit(): Promise<void> {
     try {
@@ -45,11 +49,9 @@ export class AppointmentComponent implements OnInit {
         startDate: dayjs(formData.date).unix(),
       };
 
-      const appointment = await this.barbersApiService.createAppointment(
-        params,
-      );
+      await this.barbersApiService.createAppointment(params);
 
-      this.appointments = [...this.appointments, appointment];
+      this.router.navigate(['/success']);
     } catch {
       console.error('Error while creating new appointment');
     }

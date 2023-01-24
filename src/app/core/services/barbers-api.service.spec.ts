@@ -7,7 +7,6 @@ describe('BarbersApiService', () => {
   let httpClient: HttpClient;
 
   beforeEach(() => {
-    httpClient = {} as HttpClient;
     service = new BarbersApiService(httpClient);
   });
 
