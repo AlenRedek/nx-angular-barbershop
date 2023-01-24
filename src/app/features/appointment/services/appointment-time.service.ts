@@ -10,10 +10,12 @@ export class AppointmentTimeService {
   public static getTimes(data: AppointmentData): Array<dayjs.Dayjs> {
     const { barber, date, service } = data;
     const dayNumber = dayjs(date).day();
-    const workHours = barber.workHours.find((hours) => hours.day === dayNumber);
     const times: Array<dayjs.Dayjs> = [];
+    const workHours = barber?.workHours.find(
+      (hours) => hours.day === dayNumber,
+    );
 
-    if (!workHours) {
+    if (!service || !workHours) {
       return times;
     }
 

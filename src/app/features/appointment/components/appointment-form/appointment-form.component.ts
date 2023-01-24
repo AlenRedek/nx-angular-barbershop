@@ -89,7 +89,7 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
       barber,
       date: time?.toDate(),
       service,
-    } as AppointmentData);
+    });
   }
 
   private handleFormChanges(): void {
@@ -103,8 +103,8 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
           filter((data) => data.every((item) => !!item)),
           map(([barber, date, service]) => ({ barber, date, service })),
         )
-        .subscribe((data) => {
-          this.times = AppointmentTimeService.getTimes(data as AppointmentData);
+        .subscribe((data: AppointmentData) => {
+          this.times = AppointmentTimeService.getTimes(data);
 
           this.times.length
             ? this.appointmentForm.get('time')?.enable()
