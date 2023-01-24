@@ -20,6 +20,7 @@ import {
   AppointmentData,
   AppointmentForm,
 } from '@app-features/appointment/models';
+import { AppointmentTimeService } from '@app-features/appointment/services';
 import { FormFieldErrorDirective } from '@app-shared/directives';
 import { TimeFormatPipe } from '@app-shared/pipes';
 
@@ -103,7 +104,7 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
           map(([barber, date, service]) => ({ barber, date, service })),
         )
         .subscribe((data) => {
-          this.times = this.getTimes(data as AppointmentData);
+          this.times = AppointmentTimeService.getTimes(data as AppointmentData);
 
           this.times.length
             ? this.appointmentForm.get('time')?.enable()
@@ -112,26 +113,5 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
           this.appointmentForm.get('time')?.patchValue(null);
         }),
     );
-  }
-
-  private getTimes(data: AppointmentData): Array<dayjs.Dayjs> {
-    const { barber, date, service } = data;
-    const dayNumber = dayjs(date).day();
-    const workHours = barber.workHours.find((hours) => hours.day === dayNumber);
-    const times: Array<dayjs.Dayjs> = [];
-
-    if (!workHours) {
-      return times;
-    }
-
-    let time = dayjs(date).hour(workHours.startHour).minute(0).second(0);
-
-    while (time.hour() < Number(workHours.endHour)) {
-      times.push(time);
-
-      time = time.add(service.durationMinutes, 'minutes');
-    }
-
-    return times;
   }
 }
