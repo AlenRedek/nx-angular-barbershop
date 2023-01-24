@@ -20,7 +20,9 @@ import {
   AppointmentData,
   AppointmentForm,
 } from '@app-features/appointment/models';
+import { AppointmentTimeService } from '@app-features/appointment/services';
 import { FormFieldErrorDirective } from '@app-shared/directives';
+import { TimeFormatPipe } from '@app-shared/pipes';
 
 @Component({
   selector: 'nx-angular-barbershop-appointment-form',
@@ -32,6 +34,7 @@ import { FormFieldErrorDirective } from '@app-shared/directives';
     CalendarModule,
     InputTextModule,
     FormFieldErrorDirective,
+    TimeFormatPipe,
   ],
   templateUrl: './appointment-form.component.html',
   styleUrls: ['./appointment-form.component.scss'],
@@ -86,7 +89,7 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
       barber,
       date: time?.toDate(),
       service,
-    } as AppointmentData);
+    });
   }
 
   private handleFormChanges(): void {
@@ -100,8 +103,8 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
           filter((data) => data.every((item) => !!item)),
           map(([barber, date, service]) => ({ barber, date, service })),
         )
-        .subscribe((data) => {
-          this.times = this.getTimes(data as AppointmentData);
+        .subscribe((data: AppointmentData) => {
+          this.times = AppointmentTimeService.getTimes(data);
 
           this.times.length
             ? this.appointmentForm.get('time')?.enable()
@@ -110,26 +113,5 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
           this.appointmentForm.get('time')?.patchValue(null);
         }),
     );
-  }
-
-  private getTimes(data: AppointmentData): Array<dayjs.Dayjs> {
-    const { barber, date, service } = data;
-    const dayNumber = dayjs(date).day();
-    const workHours = barber.workHours.find((hours) => hours.day === dayNumber);
-    const times: Array<dayjs.Dayjs> = [];
-
-    if (!workHours) {
-      return times;
-    }
-
-    let time = dayjs(date).hour(workHours.startHour).minute(0).second(0);
-
-    while (time.hour() < Number(workHours.endHour)) {
-      times.push(time);
-
-      time = time.add(service.durationMinutes, 'minutes');
-    }
-
-    return times;
   }
 }

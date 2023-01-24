@@ -1,6 +1,6 @@
 export interface Appointment {
-  barberId: number;
+  barberId?: number;
   id?: number;
-  serviceId: number;
-  startDate: number;
+  serviceId?: number;
+  startDate?: number;
 }

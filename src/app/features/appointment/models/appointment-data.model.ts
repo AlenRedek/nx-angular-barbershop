@@ -1,7 +1,7 @@
 import { Barber, Service } from '@app-core/models';
 
 export interface AppointmentData {
-  barber: Barber;
-  date: Date;
-  service: Service;
+  barber?: Barber | null;
+  date?: Date | null;
+  service?: Service | null;
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as dayjs from 'dayjs';
 
+import { AppRoute } from '@app-core/enums';
 import { Appointment, Barber, Service } from '@app-core/models';
 import { BarbersApiService } from '@app-core/services';
 
@@ -41,17 +42,17 @@ export class AppointmentComponent implements OnInit {
     }
   }
 
-  public async onFormSubmit(formData: AppointmentData): Promise<void> {
+  public async onFormSubmit(data: AppointmentData): Promise<void> {
     try {
       const params: Appointment = {
-        barberId: formData.barber.id,
-        serviceId: formData.service.id,
-        startDate: dayjs(formData.date).unix(),
+        barberId: data.barber?.id,
+        serviceId: data.service?.id,
+        startDate: dayjs(data.date).unix(),
       };
 
       await this.barbersApiService.createAppointment(params);
 
-      this.router.navigate(['/success']);
+      this.router.navigate([AppRoute.Success]);
     } catch {
       console.error('Error while creating new appointment');
     }

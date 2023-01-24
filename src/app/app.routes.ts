@@ -1,13 +1,15 @@
 import { Route } from '@angular/router';
 
+import { AppRoute } from '@app-core/enums';
+
 export const APP_ROUTES: Array<Route> = [
   {
-    path: 'appointment',
+    path: AppRoute.Appointment,
     loadChildren: () =>
       import('@app-features/appointment').then((m) => m.APPOINTMENT_ROUTES),
   },
   {
-    path: 'success',
+    path: AppRoute.Success,
     loadChildren: () =>
       import('@app-features/success').then((m) => m.SUCCESS_ROUTES),
   },
