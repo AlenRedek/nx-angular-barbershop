@@ -9,8 +9,6 @@ describe('AppointmentComponent', () => {
   let router: Router;
 
   beforeEach(() => {
-    barbersApiService = {} as BarbersApiService;
-    router = {} as Router;
     component = new AppointmentComponent(barbersApiService, router);
   });
 

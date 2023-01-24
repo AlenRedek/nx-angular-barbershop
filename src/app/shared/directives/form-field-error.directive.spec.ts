@@ -7,7 +7,6 @@ describe('FormFieldErrorDirective', () => {
   let elementRef: ElementRef;
 
   beforeEach(() => {
-    elementRef = {} as ElementRef;
     directive = new FormFieldErrorDirective(elementRef);
   });
 
