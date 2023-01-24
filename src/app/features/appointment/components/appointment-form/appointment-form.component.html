@@ -118,7 +118,7 @@
               Select Time
             </option>
             <option *ngFor="let time of times" [ngValue]="time">
-              {{ time.format('HH:mm') }}
+              {{ time | timeFormat }}
             </option>
           </select>
           <small

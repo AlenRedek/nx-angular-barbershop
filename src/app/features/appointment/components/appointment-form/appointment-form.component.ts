@@ -21,6 +21,7 @@ import {
   AppointmentForm,
 } from '@app-features/appointment/models';
 import { FormFieldErrorDirective } from '@app-shared/directives';
+import { TimeFormatPipe } from '@app-shared/pipes';
 
 @Component({
   selector: 'nx-angular-barbershop-appointment-form',
@@ -32,6 +33,7 @@ import { FormFieldErrorDirective } from '@app-shared/directives';
     CalendarModule,
     InputTextModule,
     FormFieldErrorDirective,
+    TimeFormatPipe,
   ],
   templateUrl: './appointment-form.component.html',
   styleUrls: ['./appointment-form.component.scss'],
