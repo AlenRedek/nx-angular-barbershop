@@ -21,5 +21,13 @@ describe('AppointmentTimeService', () => {
 
       expect(times.length).toEqual(16);
     });
+
+    it('should return an empty array if appointment data contains null value', () => {
+      appointmentData.barber = null;
+
+      const times = AppointmentTimeService.getTimes(appointmentData);
+
+      expect(times.length).toEqual(0);
+    });
   });
 });
