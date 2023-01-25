@@ -9,7 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import * as dayjs from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -67,7 +67,7 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
     time: [{ value: null, disabled: true }, Validators.required],
     price: [{ value: '', disabled: true }, Validators.required],
   });
-  public times: Array<dayjs.Dayjs> = [];
+  public times: Array<Dayjs> = [];
   public minDate = new Date();
 
   private readonly subscriptions: Subscription = new Subscription();

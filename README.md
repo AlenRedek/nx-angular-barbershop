@@ -6,6 +6,12 @@
 
 ## Development server
 
+Install the dependencies first:
+
+```shell
+yarn install
+```
+
 Run the app with a mocked REST API server:
 
 ```shell

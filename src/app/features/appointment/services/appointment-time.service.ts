@@ -19,9 +19,12 @@ export class AppointmentTimeService {
       return times;
     }
 
-    let time = dayjs(date).hour(workHours.startHour).minute(0).second(0);
+    let time = dayjs(date)
+      .set('hour', workHours.startHour)
+      .set('minute', 0)
+      .set('second', 0);
 
-    while (time.hour() < Number(workHours.endHour)) {
+    while (time.hour() < workHours.endHour) {
       times.push(time);
 
       time = time.add(service.durationMinutes, 'minutes');
