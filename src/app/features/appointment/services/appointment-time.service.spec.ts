@@ -1,13 +1,25 @@
+import { AppointmentData } from '@app-features/appointment/models';
+
 import { AppointmentTimeService } from './appointment-time.service';
 
 describe('AppointmentTimeService', () => {
-  let service: AppointmentTimeService;
+  let appointmentData: AppointmentData;
 
   beforeEach(() => {
-    service = new AppointmentTimeService();
+    appointmentData = {
+      barber: {
+        workHours: [{ day: 1, startHour: 7, endHour: 15 }],
+      },
+      date: new Date('2023-01-23'),
+      service: { durationMinutes: 30 },
+    } as AppointmentData;
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  describe('getTimes', () => {
+    it('should generate an array of available appointment times', () => {
+      const times = AppointmentTimeService.getTimes(appointmentData);
+
+      expect(times.length).toEqual(16);
+    });
   });
 });
