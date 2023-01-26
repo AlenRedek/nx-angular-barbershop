@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
-import { Appointment, Barber, Service } from '@app-core/models';
+import { Appointment, Barber, BarberGifs, Service } from '@app-core/models';
+import { environment } from '@app-env/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,12 @@ export class BarbersApiService {
 
   public getBarbers(): Promise<Array<Barber>> {
     return lastValueFrom(this.httpClient.get<Array<Barber>>('/api/barbers'));
+  }
+
+  public getBarberGifs(): Promise<BarberGifs> {
+    return lastValueFrom(
+      this.httpClient.get<BarberGifs>(environment.barberGifsApiUrl),
+    );
   }
 
   public getServices(): Promise<Array<Service>> {

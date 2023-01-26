@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'nx-angular-barbershop-success',
@@ -6,4 +7,15 @@ import { Component } from '@angular/core';
   templateUrl: './success.component.html',
   styleUrls: ['./success.component.scss'],
 })
-export class SuccessComponent {}
+export class SuccessComponent implements OnInit {
+  public barberGifUrl = '';
+
+  public constructor(private readonly route: ActivatedRoute) {}
+
+  public ngOnInit(): void {
+    const { data: barberGifs } = this.route.snapshot.data['barberGifs'];
+    const randomIndex = Math.floor(Math.random() * barberGifs.length);
+
+    this.barberGifUrl = barberGifs[randomIndex].images.original.webp;
+  }
+}
