@@ -8,7 +8,17 @@ describe('AppointmentTimeService', () => {
   beforeEach(() => {
     appointmentData = {
       barber: {
-        workHours: [{ day: 1, startHour: 7, endHour: 15 }],
+        workHours: [
+          {
+            day: 1,
+            startHour: 7,
+            endHour: 15,
+            lunchTime: {
+              startHour: 11,
+              durationMinutes: 30,
+            },
+          },
+        ],
       },
       date: new Date('2023-01-23'),
       service: { durationMinutes: 30 },
@@ -28,6 +38,18 @@ describe('AppointmentTimeService', () => {
       const times = AppointmentTimeService.getTimes(appointmentData);
 
       expect(times.length).toEqual(0);
+    });
+
+    it('should exclude appointment times during lunch time', () => {
+      const startLunchTime = 1100;
+      const endLunchTime = 1130;
+
+      const times = AppointmentTimeService.getTimes(appointmentData);
+      const timesDuringLunchTime = times
+        .map((time) => Number(time.format('HHmm')))
+        .filter((time) => time >= startLunchTime && time <= endLunchTime);
+
+      expect(timesDuringLunchTime.length).toEqual(0);
     });
   });
 });
