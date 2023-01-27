@@ -12,8 +12,7 @@
   &__image {
     // CSS variables could not be used in @media declaration
     @media only screen and (min-width: $xl) {
-      margin-left: 227px;
-      max-width: 892px;
+      max-width: 900px;
     }
   }
 }
