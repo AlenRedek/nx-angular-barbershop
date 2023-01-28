@@ -46,8 +46,8 @@ describe('AppointmentTimeService', () => {
 
       const times = AppointmentTimeService.getTimes(appointmentData);
       const timesDuringLunchTime = times
-        .map((time) => Number(time.format('HHmm')))
-        .filter((time) => time >= startLunchTime && time <= endLunchTime);
+        .map((time) => Number(time.format('Hmm')))
+        .filter((time) => time >= startLunchTime && time < endLunchTime);
 
       expect(timesDuringLunchTime.length).toEqual(0);
     });

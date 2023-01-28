@@ -3,7 +3,7 @@ import * as dayjs from 'dayjs';
 import * as isBetween from 'dayjs/plugin/isBetween';
 dayjs.extend(isBetween);
 
-import { WorkHour } from '@app-core/models';
+import { LunchTime } from '@app-core/models';
 import { AppointmentData } from '@app-features/appointment/models';
 
 @Injectable({
@@ -20,17 +20,17 @@ export class AppointmentTimeService {
       return times;
     }
 
-    let time = dayjs(date)
-      .set('hour', workHour.startHour)
-      .set('minute', 0)
-      .set('second', 0);
+    let time = this.getDateWithHour(dayjs(date), workHour.startHour);
 
     while (time.hour() < workHour.endHour) {
-      if (!AppointmentTimeService.isTimeDuringLunchTime(time, workHour)) {
+      if (this.isTimeDuringLunchTime(time, workHour.lunchTime)) {
+        time = time
+          .set('hour', workHour.lunchTime.startHour)
+          .add(workHour.lunchTime.durationMinutes, 'minutes');
+      } else {
         times.push(time);
+        time = time.add(service.durationMinutes, 'minutes');
       }
-
-      time = time.add(service.durationMinutes, 'minutes');
     }
 
     return times;
@@ -38,17 +38,19 @@ export class AppointmentTimeService {
 
   private static isTimeDuringLunchTime(
     time: dayjs.Dayjs,
-    workHour: WorkHour,
+    lunchTime: LunchTime,
   ): boolean {
-    const startLunchTime = dayjs(time).set(
-      'hour',
-      workHour.lunchTime.startHour,
-    );
+    const startLunchTime = this.getDateWithHour(time, lunchTime.startHour);
     const endLunchTime = dayjs(startLunchTime).add(
-      workHour.lunchTime.durationMinutes,
+      lunchTime.durationMinutes,
       'minutes',
     );
 
-    return time.isBetween(startLunchTime, endLunchTime, 'minute', '[]');
+    // '[)' includes the start time but excludes the end time
+    return time.isBetween(startLunchTime, endLunchTime, 'minute', '[)');
+  }
+
+  private static getDateWithHour(date: dayjs.Dayjs, hour: number): dayjs.Dayjs {
+    return dayjs(date).set('hour', hour).set('minute', 0).set('second', 0);
   }
 }
