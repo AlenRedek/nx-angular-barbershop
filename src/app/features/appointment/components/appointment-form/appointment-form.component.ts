@@ -104,7 +104,12 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
           map(([barber, date, service]) => ({ barber, date, service })),
         )
         .subscribe((data: AppointmentData) => {
-          this.times = AppointmentTimeService.getTimes(data);
+          const busyHours = AppointmentTimeService.getBusyHours(
+            data,
+            this.appointments,
+            this.services,
+          );
+          this.times = AppointmentTimeService.getTimes(data, busyHours);
 
           this.times.length
             ? this.appointmentForm.get('time')?.enable()
