@@ -1,9 +1,9 @@
-import { BusyHour } from './busy-hour.model';
+import { LunchTime } from './lunch-time.model';
 
 export interface WorkHour {
   day: number;
   endHour: number;
   id: number;
-  lunchTime: BusyHour;
+  lunchTime: LunchTime;
   startHour: number;
 }

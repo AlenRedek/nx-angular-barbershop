@@ -1,4 +1,4 @@
-import { Appointment, BusyHour, Service } from '@app-core/models';
+import { Appointment, BusyHour, LunchTime, Service } from '@app-core/models';
 import { AppointmentData } from '@app-features/appointment/models';
 
 import { AppointmentTimeService } from './appointment-time.service';
@@ -6,7 +6,7 @@ import { AppointmentTimeService } from './appointment-time.service';
 describe('AppointmentTimeService', () => {
   let appointmentData: AppointmentData;
   let appointments: Array<Appointment>;
-  let lunchTime: BusyHour;
+  let lunchTime: LunchTime;
   let services: Array<Service>;
 
   beforeEach(() => {
@@ -53,17 +53,7 @@ describe('AppointmentTimeService', () => {
         services,
       );
 
-      expect(busyHours.length).toBeGreaterThan(2);
-    });
-
-    it('should include the lunch time', () => {
-      const busyHours = AppointmentTimeService.getBusyHours(
-        appointmentData,
-        appointments,
-        services,
-      );
-
-      expect(busyHours).toEqual(expect.arrayContaining([lunchTime]));
+      expect(busyHours.length).toEqual(5);
     });
 
     it('should NOT include the lunch time', () => {
@@ -75,7 +65,7 @@ describe('AppointmentTimeService', () => {
         services,
       );
 
-      expect(busyHours).toEqual(expect.not.arrayContaining([lunchTime]));
+      expect(busyHours.length).toEqual(4);
     });
   });
 
@@ -100,8 +90,12 @@ describe('AppointmentTimeService', () => {
     it('should exclude appointment times during lunch time', () => {
       const startLunchTime = 1100;
       const endLunchTime = 1130;
-      const busyHours: Array<BusyHour> = [lunchTime];
 
+      const busyHours = AppointmentTimeService.getBusyHours(
+        appointmentData,
+        appointments,
+        services,
+      );
       const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
       const timesDuringLunchTime = times
         .map((time) => Number(time.format('Hmm')))

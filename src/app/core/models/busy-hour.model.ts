@@ -1,4 +1,6 @@
+import { Dayjs } from 'dayjs';
+
 export interface BusyHour {
-  durationMinutes: number;
-  startHour: number;
+  start: Dayjs;
+  end: Dayjs;
 }

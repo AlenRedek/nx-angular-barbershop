@@ -15,7 +15,6 @@ export class AppointmentTimeService {
     appointments: Array<Appointment>,
     services: Array<Service>,
   ): Array<BusyHour> {
-    const workHour = this.getWorkHour(data);
     const busyHours = appointments
       .filter((appointment) =>
         dayjs.unix(appointment.startDate).isSame(data.date, 'day'),
@@ -28,14 +27,15 @@ export class AppointmentTimeService {
         const service = services.find(
           (service) => service.id === appointment.serviceId,
         ) as Service;
+        const startAppointment = dayjs.unix(appointment.startDate);
 
         return {
-          durationMinutes: service.durationMinutes,
-          startHour: dayjs.unix(appointment.startDate).hour(),
+          start: startAppointment,
+          end: startAppointment.add(service.durationMinutes, 'minutes'),
         };
       });
 
-    return [...busyHours, ...(workHour?.lunchTime ? [workHour.lunchTime] : [])];
+    return [...busyHours, ...this.getLunchTime(data)];
   }
 
   public static getTimes(
@@ -53,12 +53,10 @@ export class AppointmentTimeService {
     let time = this.getDateWithHour(dayjs(date), workHour.startHour);
 
     while (time.hour() < workHour.endHour) {
-      const busyHourDuringTime = this.getBusyHourDuringTime(time, busyHours);
+      const busyHour = this.getBusyHourDuringTime(time, busyHours, service);
 
-      if (busyHourDuringTime) {
-        time = time
-          .set('hour', busyHourDuringTime.startHour)
-          .add(busyHourDuringTime.durationMinutes, 'minutes');
+      if (busyHour) {
+        time = busyHour.end;
       } else {
         times.push(time);
         time = time.add(service.durationMinutes, 'minutes');
@@ -71,21 +69,38 @@ export class AppointmentTimeService {
   private static getBusyHourDuringTime(
     time: dayjs.Dayjs,
     busyHours: Array<BusyHour>,
+    service: Service,
   ): BusyHour | undefined {
     return busyHours.find((busyHour) => {
-      const startBusyHour = this.getDateWithHour(time, busyHour.startHour);
-      const endBusyHour = dayjs(startBusyHour).add(
-        busyHour.durationMinutes,
-        'minutes',
-      );
+      const startService = time;
+      const endService = startService.add(service.durationMinutes, 'minutes');
 
-      // '[)' includes the start time but excludes the end time
-      return time.isBetween(startBusyHour, endBusyHour, 'minute', '[)');
+      return (
+        // '[)' includes the start time but excludes the end time
+        busyHour.start.isBetween(startService, endService, 'minute', '[)')
+      );
     });
   }
 
   private static getDateWithHour(date: dayjs.Dayjs, hour: number): dayjs.Dayjs {
     return dayjs(date).set('hour', hour).set('minute', 0).set('second', 0);
+  }
+
+  private static getLunchTime(data: AppointmentData): Array<BusyHour> {
+    const { lunchTime } = this.getWorkHour(data) ?? {};
+
+    if (!lunchTime) {
+      return [];
+    }
+
+    const startLunchTime = dayjs(data.date).set('hour', lunchTime.startHour);
+
+    return [
+      {
+        start: startLunchTime,
+        end: startLunchTime.add(lunchTime.durationMinutes, 'minutes'),
+      },
+    ];
   }
 
   private static getWorkHour(data: AppointmentData): WorkHour | undefined {
