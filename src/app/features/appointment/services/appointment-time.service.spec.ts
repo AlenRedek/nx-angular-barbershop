@@ -35,6 +35,9 @@ describe('AppointmentTimeService', () => {
       { serviceId: 1, startDate: 1675237200 }, // 01/02 08:40
       { serviceId: 3, startDate: 1675240200 }, // 01/02 09:30
       { serviceId: 2, startDate: 1675243200 }, // 01/02 10:20
+      { serviceId: 1, startDate: 1675249800 }, // 01/02 12:10
+      { serviceId: 2, startDate: 1675251000 }, // 01/02 12:30
+      { serviceId: 3, startDate: 1675253400 }, // 01/02 13:10
 
       { serviceId: 1, startDate: 1675348800 }, // 02/02 15:40
       { serviceId: 2, startDate: 1675351800 }, // 02/02 16:30
@@ -54,7 +57,7 @@ describe('AppointmentTimeService', () => {
 
   describe('getBusyHours', () => {
     it('should include only the lunch time and busy hours for the selected date', () => {
-      expect(busyHours.length).toEqual(5);
+      expect(busyHours.length).toEqual(8);
     });
 
     it('should NOT include the lunch time', () => {
@@ -66,7 +69,7 @@ describe('AppointmentTimeService', () => {
         services,
       );
 
-      expect(busyHours.length).toEqual(4);
+      expect(busyHours.length).toEqual(7);
     });
   });
 
@@ -86,9 +89,9 @@ describe('AppointmentTimeService', () => {
     });
 
     it.each([
-      [[750, 810, 900, 1130], 20],
-      [[750, 900, 1130], 30],
-      [[750, 1130], 50],
+      [[750, 810, 900, 1130, 1150, 1400, 1420, 1440], 20],
+      [[750, 900, 1130, 1400, 1430], 30],
+      [[750, 1400], 50],
     ])(
       'should include appointment times starting at %p for service duration %p',
       (startServices, durationMinutes) => {
@@ -101,16 +104,16 @@ describe('AppointmentTimeService', () => {
           appointmentData,
           busyHours,
         );
-        const timesDuringBusyHours = times
+        const availableTimes = times
           .map((startService) => Number(startService.format('Hmm')))
           .filter((startService) => startServices.includes(startService));
 
-        expect(timesDuringBusyHours).toEqual(startServices);
+        expect(availableTimes).toEqual(startServices);
       },
     );
 
     it('should NOT include appointment times during busy hours', () => {
-      const startBusyHours = [700, 840, 930, 1020, 1100];
+      const startBusyHours = [700, 840, 930, 1020, 1100, 1210, 1230, 1310];
 
       const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
       const timesDuringBusyHours = times

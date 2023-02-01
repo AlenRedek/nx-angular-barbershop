@@ -52,7 +52,7 @@ export class AppointmentTimeService {
 
     let time = this.getDateWithHour(dayjs(date), workHour.startHour);
 
-    while (time.hour() < workHour.endHour) {
+    while (this.isServiceWithinEndWorkHour(time, service, workHour)) {
       const busyHour = this.getBusyHourDuringTime(time, busyHours, service);
 
       if (busyHour) {
@@ -64,6 +64,21 @@ export class AppointmentTimeService {
     }
 
     return times;
+  }
+
+  private static isServiceWithinEndWorkHour(
+    startService: dayjs.Dayjs,
+    service: Service,
+    workHour: WorkHour,
+  ): boolean {
+    const endService = startService
+      .add(service.durationMinutes, 'minutes')
+      .format('Hmm');
+    const endWorkHour = this.getDateWithHour(dayjs(), workHour.endHour).format(
+      'Hmm',
+    );
+
+    return Number(endService) <= Number(endWorkHour);
   }
 
   private static getBusyHourDuringTime(
