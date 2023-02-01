@@ -82,10 +82,6 @@ export class AppointmentTimeService {
     });
   }
 
-  private static getDateWithHour(date: dayjs.Dayjs, hour: number): dayjs.Dayjs {
-    return dayjs(date).set('hour', hour).set('minute', 0).set('second', 0);
-  }
-
   private static getLunchTime(data: AppointmentData): Array<BusyHour> {
     const { lunchTime } = this.getWorkHour(data) ?? {};
 
@@ -93,7 +89,10 @@ export class AppointmentTimeService {
       return [];
     }
 
-    const startLunchTime = dayjs(data.date).set('hour', lunchTime.startHour);
+    const startLunchTime = this.getDateWithHour(
+      dayjs(data.date),
+      lunchTime.startHour,
+    );
 
     return [
       {
@@ -108,5 +107,9 @@ export class AppointmentTimeService {
     const dayNumber = dayjs(date).day();
 
     return barber?.workHours.find((hours) => hours.day === dayNumber);
+  }
+
+  private static getDateWithHour(date: dayjs.Dayjs, hour: number): dayjs.Dayjs {
+    return dayjs(date).set('hour', hour).set('minute', 0).set('second', 0);
   }
 }
