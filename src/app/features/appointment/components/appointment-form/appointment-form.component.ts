@@ -108,17 +108,17 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
   }
 
   private updateTimeControl(data: AppointmentData): void {
-          const busyHours = AppointmentTimeService.getBusyHours(
-            data,
-            this.appointments,
-            this.services,
-          );
-          this.times = AppointmentTimeService.getTimes(data, busyHours);
+    const busyHours = AppointmentTimeService.getBusyHours(
+      data,
+      this.appointments,
+      this.services,
+    );
+    this.times = AppointmentTimeService.getTimes(data, busyHours);
 
-          this.times.length
-            ? this.appointmentForm.get('time')?.enable()
-            : this.appointmentForm.get('time')?.disable();
+    this.times.length
+      ? this.appointmentForm.get('time')?.enable()
+      : this.appointmentForm.get('time')?.disable();
 
-          this.appointmentForm.get('time')?.patchValue(null);
+    this.appointmentForm.get('time')?.patchValue(null);
   }
 }
