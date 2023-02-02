@@ -50,7 +50,7 @@ export class AppointmentTimeService {
       return times;
     }
 
-    let time = this.getDateWithHour(dayjs(date), workHour.startHour);
+    let time = this.getDateWithHour(workHour.startHour, date);
 
     while (this.isServiceWithinEndWorkHour(time, service, workHour)) {
       const busyHour = this.getBusyHourDuringTime(time, busyHours, service);
@@ -74,9 +74,7 @@ export class AppointmentTimeService {
     const endService = startService
       .add(service.durationMinutes, 'minutes')
       .format('Hmm');
-    const endWorkHour = this.getDateWithHour(dayjs(), workHour.endHour).format(
-      'Hmm',
-    );
+    const endWorkHour = this.getDateWithHour(workHour.endHour).format('Hmm');
 
     return Number(endService) <= Number(endWorkHour);
   }
@@ -98,16 +96,14 @@ export class AppointmentTimeService {
   }
 
   private static getLunchTime(data: AppointmentData): Array<BusyHour> {
+    const { date } = data;
     const { lunchTime } = this.getWorkHour(data) ?? {};
 
     if (!lunchTime) {
       return [];
     }
 
-    const startLunchTime = this.getDateWithHour(
-      dayjs(data.date),
-      lunchTime.startHour,
-    );
+    const startLunchTime = this.getDateWithHour(lunchTime.startHour, date);
 
     return [
       {
@@ -124,7 +120,10 @@ export class AppointmentTimeService {
     return barber?.workHours.find((hours) => hours.day === dayNumber);
   }
 
-  private static getDateWithHour(date: dayjs.Dayjs, hour: number): dayjs.Dayjs {
+  private static getDateWithHour(
+    hour: number,
+    date?: AppointmentData['date'],
+  ): dayjs.Dayjs {
     return dayjs(date).set('hour', hour).set('minute', 0).set('second', 0);
   }
 }
