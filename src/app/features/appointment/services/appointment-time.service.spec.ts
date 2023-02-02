@@ -10,8 +10,6 @@ describe('AppointmentTimeService', () => {
   let lunchTime: LunchTime;
   let services: Array<Service>;
 
-  console.log(new Date('2023-02-01T00:00:00').getTimezoneOffset());
-
   beforeEach(() => {
     lunchTime = {
       startHour: 11,
@@ -28,7 +26,7 @@ describe('AppointmentTimeService', () => {
           },
         ],
       },
-      date: new Date('2023-02-01T00:00:00'),
+      date: '2023-02-01' as unknown as Date,
       service: { durationMinutes: 30 },
     } as AppointmentData;
 
@@ -102,14 +100,13 @@ describe('AppointmentTimeService', () => {
           service: { durationMinutes },
         } as AppointmentData;
 
-        busyHours.forEach((startAppointment) => {
-          console.log(startAppointment.start.format('Hmm'));
-        });
+        busyHours.forEach((hour) => console.log(hour.start.format('Hmm')));
 
         const times = AppointmentTimeService.getTimes(
           appointmentData,
           busyHours,
         );
+        times.forEach((time) => console.log(time.format('Hmm')));
         const availableTimes = times
           .map((startService) => Number(startService.format('Hmm')))
           .filter((startService) => startServices.includes(startService));
