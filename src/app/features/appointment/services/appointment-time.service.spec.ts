@@ -10,6 +10,8 @@ describe('AppointmentTimeService', () => {
   let lunchTime: LunchTime;
   let services: Array<Service>;
 
+  console.log(new Date('2023-02-01T00:00:00').getTimezoneOffset());
+
   beforeEach(() => {
     lunchTime = {
       startHour: 11,
@@ -99,6 +101,10 @@ describe('AppointmentTimeService', () => {
           ...appointmentData,
           service: { durationMinutes },
         } as AppointmentData;
+
+        busyHours.forEach((startAppointment) => {
+          console.log(startAppointment.start.format('Hmm'));
+        });
 
         const times = AppointmentTimeService.getTimes(
           appointmentData,
