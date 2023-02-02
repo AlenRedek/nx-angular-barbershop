@@ -26,7 +26,7 @@ describe('AppointmentTimeService', () => {
           },
         ],
       },
-      date: new Date('2023-02-01'),
+      date: new Date('2023-02-01T00:00:00'),
       service: { durationMinutes: 30 },
     } as AppointmentData;
 
@@ -93,7 +93,7 @@ describe('AppointmentTimeService', () => {
       [[750, 900, 1130, 1400, 1430], 30],
       [[750, 1400], 50],
     ])(
-      'should include appointment times starting at %p for service duration %p',
+      'should include appointment times starting at %p for service duration %p minutes',
       (startServices, durationMinutes) => {
         appointmentData = {
           ...appointmentData,
