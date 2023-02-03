@@ -100,13 +100,10 @@ describe('AppointmentTimeService', () => {
           service: { durationMinutes },
         } as AppointmentData;
 
-        busyHours.forEach((hour) => console.log(hour.start.format('Hmm')));
-
         const times = AppointmentTimeService.getTimes(
           appointmentData,
           busyHours,
         );
-        times.forEach((time) => console.log(time.format('Hmm')));
         const availableTimes = times
           .map((startService) => Number(startService.format('Hmm')))
           .filter((startService) => startServices.includes(startService));
