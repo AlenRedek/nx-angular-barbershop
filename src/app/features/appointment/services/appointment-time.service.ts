@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as dayjs from 'dayjs';
 import * as isBetween from 'dayjs/plugin/isBetween';
+import * as utc from 'dayjs/plugin/utc';
 dayjs.extend(isBetween);
+dayjs.extend(utc);
 
 import { Appointment, BusyHour, Service, WorkHour } from '@app-core/models';
 import { AppointmentData } from '@app-features/appointment/models';
@@ -15,9 +17,10 @@ export class AppointmentTimeService {
     appointments: Array<Appointment>,
     services: Array<Service>,
   ): Array<BusyHour> {
+    const { date } = data;
     const busyHours = appointments
       .filter((appointment) =>
-        dayjs.unix(appointment.startDate).isSame(data.date, 'day'),
+        this.getDateFromTimestamp(appointment.startDate).isSame(date, 'day'),
       )
       .filter((appointment) =>
         // Service durationMinutes must be defined to prevent an infinite loop
@@ -27,7 +30,9 @@ export class AppointmentTimeService {
         const service = services.find(
           (service) => service.id === appointment.serviceId,
         ) as Service;
-        const startAppointment = dayjs.unix(appointment.startDate);
+        const startAppointment = this.getDateFromTimestamp(
+          appointment.startDate,
+        );
 
         return {
           start: startAppointment,
@@ -50,9 +55,9 @@ export class AppointmentTimeService {
       return times;
     }
 
-    let time = this.getDateWithHour(dayjs(date), workHour.startHour);
+    let time = this.getDateWithHour(workHour.startHour, date);
 
-    while (time.hour() < workHour.endHour) {
+    while (this.isServiceWithinEndWorkHour(time, service, workHour)) {
       const busyHour = this.getBusyHourDuringTime(time, busyHours, service);
 
       if (busyHour) {
@@ -64,6 +69,19 @@ export class AppointmentTimeService {
     }
 
     return times;
+  }
+
+  private static isServiceWithinEndWorkHour(
+    startService: dayjs.Dayjs,
+    service: Service,
+    workHour: WorkHour,
+  ): boolean {
+    const endService = startService
+      .add(service.durationMinutes, 'minutes')
+      .format('Hmm');
+    const endWorkHour = this.getDateWithHour(workHour.endHour).format('Hmm');
+
+    return Number(endService) <= Number(endWorkHour);
   }
 
   private static getBusyHourDuringTime(
@@ -82,18 +100,15 @@ export class AppointmentTimeService {
     });
   }
 
-  private static getDateWithHour(date: dayjs.Dayjs, hour: number): dayjs.Dayjs {
-    return dayjs(date).set('hour', hour).set('minute', 0).set('second', 0);
-  }
-
   private static getLunchTime(data: AppointmentData): Array<BusyHour> {
+    const { date } = data;
     const { lunchTime } = this.getWorkHour(data) ?? {};
 
     if (!lunchTime) {
       return [];
     }
 
-    const startLunchTime = dayjs(data.date).set('hour', lunchTime.startHour);
+    const startLunchTime = this.getDateWithHour(lunchTime.startHour, date);
 
     return [
       {
@@ -108,5 +123,20 @@ export class AppointmentTimeService {
     const dayNumber = dayjs(date).day();
 
     return barber?.workHours.find((hours) => hours.day === dayNumber);
+  }
+
+  private static getDateWithHour(
+    hour: number,
+    date?: AppointmentData['date'],
+  ): dayjs.Dayjs {
+    return dayjs(date)
+      .utc()
+      .set('hour', hour)
+      .set('minute', 0)
+      .set('second', 0);
+  }
+
+  private static getDateFromTimestamp(timestamp: number): dayjs.Dayjs {
+    return dayjs.unix(timestamp).utc();
   }
 }

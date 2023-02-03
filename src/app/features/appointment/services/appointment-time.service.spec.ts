@@ -6,6 +6,7 @@ import { AppointmentTimeService } from './appointment-time.service';
 describe('AppointmentTimeService', () => {
   let appointmentData: AppointmentData;
   let appointments: Array<Appointment>;
+  let busyHours: Array<BusyHour>;
   let lunchTime: LunchTime;
   let services: Array<Service>;
 
@@ -30,30 +31,33 @@ describe('AppointmentTimeService', () => {
     } as AppointmentData;
 
     appointments = [
-      { serviceId: 2, startDate: 1675231200 }, // 01/02 07:00
-      { serviceId: 2, startDate: 1675233000 }, // 01/02 07:30
-      { serviceId: 3, startDate: 1675254000 }, // 01/02 13:20
-      { serviceId: 1, startDate: 1675259400 }, // 01/02 14:50
+      { serviceId: 3, startDate: 1675234800 }, // 01/02 07:00 UTC
+      { serviceId: 1, startDate: 1675240800 }, // 01/02 08:40 UTC
+      { serviceId: 3, startDate: 1675243800 }, // 01/02 09:30 UTC
+      { serviceId: 2, startDate: 1675246800 }, // 01/02 10:20 UTC
+      { serviceId: 1, startDate: 1675253400 }, // 01/02 12:10 UTC
+      { serviceId: 2, startDate: 1675254600 }, // 01/02 12:30 UTC
+      { serviceId: 3, startDate: 1675257000 }, // 01/02 13:10 UTC
 
-      { serviceId: 1, startDate: 1675348800 }, // 02/02 15:40
-      { serviceId: 2, startDate: 1675351800 }, // 02/02 16:30
+      { serviceId: 1, startDate: 1675352400 }, // 02/02 15:40 UTC
+      { serviceId: 2, startDate: 1675355400 }, // 02/02 16:30 UTC
     ];
     services = [
       { id: 1, durationMinutes: 20 },
       { id: 2, durationMinutes: 30 },
       { id: 3, durationMinutes: 50 },
     ] as Array<Service>;
+
+    busyHours = AppointmentTimeService.getBusyHours(
+      appointmentData,
+      appointments,
+      services,
+    );
   });
 
   describe('getBusyHours', () => {
-    it('should include only the busy hours on the selected date', () => {
-      const busyHours = AppointmentTimeService.getBusyHours(
-        appointmentData,
-        appointments,
-        services,
-      );
-
-      expect(busyHours.length).toEqual(5);
+    it('should include only the lunch time and busy hours for the selected date', () => {
+      expect(busyHours.length).toEqual(8);
     });
 
     it('should NOT include the lunch time', () => {
@@ -65,21 +69,18 @@ describe('AppointmentTimeService', () => {
         services,
       );
 
-      expect(busyHours.length).toEqual(4);
+      expect(busyHours.length).toEqual(7);
     });
   });
 
   describe('getTimes', () => {
     it('should generate an array of available appointment times', () => {
-      const busyHours: Array<BusyHour> = [];
-
       const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
 
       expect(times.length).toBeGreaterThan(0);
     });
 
     it('should return an empty array if appointment data contains null value', () => {
-      const busyHours: Array<BusyHour> = [];
       appointmentData.barber = null;
 
       const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
@@ -87,21 +88,39 @@ describe('AppointmentTimeService', () => {
       expect(times.length).toEqual(0);
     });
 
-    it('should exclude appointment times during lunch time', () => {
-      const startLunchTime = 1100;
-      const endLunchTime = 1130;
+    it.each([
+      [[750, 810, 900, 1130, 1150, 1400, 1420, 1440], 20],
+      [[750, 900, 1130, 1400, 1430], 30],
+      [[750, 1400], 50],
+    ])(
+      'should include appointment times starting at %p for service duration %p minutes',
+      (startServices, durationMinutes) => {
+        appointmentData = {
+          ...appointmentData,
+          service: { durationMinutes },
+        } as AppointmentData;
 
-      const busyHours = AppointmentTimeService.getBusyHours(
-        appointmentData,
-        appointments,
-        services,
-      );
+        const times = AppointmentTimeService.getTimes(
+          appointmentData,
+          busyHours,
+        );
+        const availableTimes = times
+          .map((startService) => Number(startService.format('Hmm')))
+          .filter((startService) => startServices.includes(startService));
+
+        expect(availableTimes).toEqual(startServices);
+      },
+    );
+
+    it('should NOT include appointment times during busy hours', () => {
+      const startBusyHours = [700, 840, 930, 1020, 1100, 1210, 1230, 1310];
+
       const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
-      const timesDuringLunchTime = times
-        .map((time) => Number(time.format('Hmm')))
-        .filter((time) => time >= startLunchTime && time < endLunchTime);
+      const timesDuringBusyHours = times
+        .map((startService) => Number(startService.format('Hmm')))
+        .filter((startService) => startBusyHours.includes(startService));
 
-      expect(timesDuringLunchTime.length).toEqual(0);
+      expect(timesDuringBusyHours.length).toEqual(0);
     });
   });
 });

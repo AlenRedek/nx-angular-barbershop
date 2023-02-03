@@ -103,20 +103,22 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
           filter((data) => data.every((item) => !!item)),
           map(([barber, date, service]) => ({ barber, date, service })),
         )
-        .subscribe((data: AppointmentData) => {
-          const busyHours = AppointmentTimeService.getBusyHours(
-            data,
-            this.appointments,
-            this.services,
-          );
-          this.times = AppointmentTimeService.getTimes(data, busyHours);
-
-          this.times.length
-            ? this.appointmentForm.get('time')?.enable()
-            : this.appointmentForm.get('time')?.disable();
-
-          this.appointmentForm.get('time')?.patchValue(null);
-        }),
+        .subscribe((data: AppointmentData) => this.updateTimeControl(data)),
     );
+  }
+
+  private updateTimeControl(data: AppointmentData): void {
+    const busyHours = AppointmentTimeService.getBusyHours(
+      data,
+      this.appointments,
+      this.services,
+    );
+    this.times = AppointmentTimeService.getTimes(data, busyHours);
+
+    this.times.length
+      ? this.appointmentForm.get('time')?.enable()
+      : this.appointmentForm.get('time')?.disable();
+
+    this.appointmentForm.get('time')?.patchValue(null);
   }
 }
