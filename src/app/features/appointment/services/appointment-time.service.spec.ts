@@ -26,21 +26,21 @@ describe('AppointmentTimeService', () => {
           },
         ],
       },
-      date: '2023-02-01' as unknown as Date,
+      date: new Date('2023-02-01'),
       service: { durationMinutes: 30 },
     } as AppointmentData;
 
     appointments = [
-      { serviceId: 3, startDate: 1675231200 }, // 01/02 07:00
-      { serviceId: 1, startDate: 1675237200 }, // 01/02 08:40
-      { serviceId: 3, startDate: 1675240200 }, // 01/02 09:30
-      { serviceId: 2, startDate: 1675243200 }, // 01/02 10:20
-      { serviceId: 1, startDate: 1675249800 }, // 01/02 12:10
-      { serviceId: 2, startDate: 1675251000 }, // 01/02 12:30
-      { serviceId: 3, startDate: 1675253400 }, // 01/02 13:10
+      { serviceId: 3, startDate: 1675234800 }, // 01/02 07:00 UTC
+      { serviceId: 1, startDate: 1675240800 }, // 01/02 08:40 UTC
+      { serviceId: 3, startDate: 1675243800 }, // 01/02 09:30 UTC
+      { serviceId: 2, startDate: 1675246800 }, // 01/02 10:20 UTC
+      { serviceId: 1, startDate: 1675253400 }, // 01/02 12:10 UTC
+      { serviceId: 2, startDate: 1675254600 }, // 01/02 12:30 UTC
+      { serviceId: 3, startDate: 1675257000 }, // 01/02 13:10 UTC
 
-      { serviceId: 1, startDate: 1675348800 }, // 02/02 15:40
-      { serviceId: 2, startDate: 1675351800 }, // 02/02 16:30
+      { serviceId: 1, startDate: 1675352400 }, // 02/02 15:40 UTC
+      { serviceId: 2, startDate: 1675355400 }, // 02/02 16:30 UTC
     ];
     services = [
       { id: 1, durationMinutes: 20 },
