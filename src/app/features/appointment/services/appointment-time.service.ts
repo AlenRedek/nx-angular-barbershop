@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as dayjs from 'dayjs';
-import * as isBetween from 'dayjs/plugin/isBetween';
-import * as utc from 'dayjs/plugin/utc';
-dayjs.extend(isBetween);
-dayjs.extend(utc);
 
 import { Appointment, BusyHour, Service, WorkHour } from '@app-core/models';
 import { AppointmentData } from '@app-features/appointment/models';
