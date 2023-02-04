@@ -56,8 +56,8 @@ export class AppointmentTimeService {
     while (this.isServiceDuringWorkHour(startService, service, workHour)) {
       const busyHour = this.getBusyHourDuringService(
         startService,
-        busyHours,
         service,
+        busyHours,
       );
 
       if (busyHour) {
@@ -86,8 +86,8 @@ export class AppointmentTimeService {
 
   private static getBusyHourDuringService(
     startService: dayjs.Dayjs,
-    busyHours: Array<BusyHour>,
     service: Service,
+    busyHours: Array<BusyHour>,
   ): BusyHour | undefined {
     return busyHours.find((busyHour) => {
       const endService = startService.add(service.durationMinutes, 'minutes');
