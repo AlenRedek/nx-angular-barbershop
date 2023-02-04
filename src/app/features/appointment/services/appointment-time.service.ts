@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 
 import { Appointment, BusyHour, Service, WorkHour } from '@app-core/models';
 import { AppointmentData } from '@app-features/appointment/models';

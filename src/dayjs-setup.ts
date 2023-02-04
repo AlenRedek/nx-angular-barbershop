@@ -1,7 +1,7 @@
-import * as dayjs from 'dayjs';
-import * as isBetween from 'dayjs/plugin/isBetween';
-import * as timezone from 'dayjs/plugin/timezone';
-import * as utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 dayjs.extend(isBetween);
 dayjs.extend(utc);
 dayjs.extend(timezone);
