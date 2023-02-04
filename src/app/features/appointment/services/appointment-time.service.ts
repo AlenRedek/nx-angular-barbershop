@@ -51,23 +51,27 @@ export class AppointmentTimeService {
       return times;
     }
 
-    let time = this.getDateWithHour(workHour.startHour, date);
+    let startService = this.getDateWithHour(workHour.startHour, date);
 
-    while (this.isServiceWithinEndWorkHour(time, service, workHour)) {
-      const busyHour = this.getBusyHourDuringTime(time, busyHours, service);
+    while (this.isServiceDuringWorkHour(startService, service, workHour)) {
+      const busyHour = this.getBusyHourDuringService(
+        startService,
+        busyHours,
+        service,
+      );
 
       if (busyHour) {
-        time = busyHour.end;
+        startService = busyHour.end;
       } else {
-        times.push(time);
-        time = time.add(service.durationMinutes, 'minutes');
+        times.push(startService);
+        startService = startService.add(service.durationMinutes, 'minutes');
       }
     }
 
     return times;
   }
 
-  private static isServiceWithinEndWorkHour(
+  private static isServiceDuringWorkHour(
     startService: dayjs.Dayjs,
     service: Service,
     workHour: WorkHour,
@@ -80,13 +84,12 @@ export class AppointmentTimeService {
     return Number(endService) <= Number(endWorkHour);
   }
 
-  private static getBusyHourDuringTime(
-    time: dayjs.Dayjs,
+  private static getBusyHourDuringService(
+    startService: dayjs.Dayjs,
     busyHours: Array<BusyHour>,
     service: Service,
   ): BusyHour | undefined {
     return busyHours.find((busyHour) => {
-      const startService = time;
       const endService = startService.add(service.durationMinutes, 'minutes');
 
       return (
