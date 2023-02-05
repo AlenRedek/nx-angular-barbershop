@@ -142,7 +142,7 @@ export class AppointmentTimeService {
     return dayjs(date).utc(true);
   }
 
-  private static getDateFromTimestamp(timestamp: number): dayjs.Dayjs {
+  private static getDateFromTimestamp(timestamp: number = 0): dayjs.Dayjs {
     // Prevent Dayjs automatic conversion to local time with .utc()
     // True should not be passed because the timestamp is already in UTC
     return dayjs.unix(timestamp).utc();
