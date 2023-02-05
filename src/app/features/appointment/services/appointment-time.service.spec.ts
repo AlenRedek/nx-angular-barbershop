@@ -11,6 +11,8 @@ describe('AppointmentTimeService', () => {
   let services: Array<Service>;
 
   beforeEach(() => {
+    jest.useFakeTimers().setSystemTime(new Date('2023-01-31T00:00:00'));
+
     lunchTime = {
       startHour: 11,
       durationMinutes: 30,
@@ -26,7 +28,7 @@ describe('AppointmentTimeService', () => {
           },
         ],
       },
-      date: new Date('2023-02-01'),
+      date: new Date('2023-02-01T00:00:00'),
       service: { durationMinutes: 30 },
     } as AppointmentData;
 
@@ -86,6 +88,17 @@ describe('AppointmentTimeService', () => {
       const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
 
       expect(times.length).toEqual(0);
+    });
+
+    it('should include appointment times only for the selected day of month', () => {
+      const dayOfMonth = 1;
+
+      const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
+      const serviceDays = times
+        .map((startService) => Number(startService.format('D')))
+        .filter((serviceDay) => serviceDay === dayOfMonth);
+
+      expect(serviceDays.length).toEqual(times.length);
     });
 
     it.each([

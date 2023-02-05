@@ -16,7 +16,10 @@ export class AppointmentTimeService {
     const { date } = data;
     const busyHours = appointments
       .filter((appointment) =>
-        this.getDateFromTimestamp(appointment.startDate).isSame(date, 'day'),
+        this.getDateFromTimestamp(appointment.startDate).isSame(
+          this.getUtcDate(date),
+          'day',
+        ),
       )
       .filter((appointment) =>
         // Service durationMinutes must be defined to prevent an infinite loop
@@ -119,7 +122,7 @@ export class AppointmentTimeService {
 
   private static getWorkHour(data: AppointmentData): WorkHour | undefined {
     const { barber, date } = data;
-    const dayNumber = dayjs(date).day();
+    const dayNumber = this.getUtcDate(date).day();
 
     return barber?.workHours.find((hours) => hours.day === dayNumber);
   }
@@ -128,14 +131,20 @@ export class AppointmentTimeService {
     hour: number,
     date?: AppointmentData['date'],
   ): dayjs.Dayjs {
-    return dayjs(date)
-      .utc()
+    return this.getUtcDate(date)
       .set('hour', hour)
       .set('minute', 0)
       .set('second', 0);
   }
 
+  private static getUtcDate(date: AppointmentData['date']): dayjs.Dayjs {
+    // Change the time zone without changing the current time
+    return dayjs(date).utc(true);
+  }
+
   private static getDateFromTimestamp(timestamp: number): dayjs.Dayjs {
+    // Prevent Dayjs automatic conversion to local time with .utc()
+    // True should not be passed because the timestamp is already in UTC
     return dayjs.unix(timestamp).utc();
   }
 }
