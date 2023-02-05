@@ -57,9 +57,17 @@ describe('AppointmentTimeService', () => {
     );
   });
 
-  describe('getBusyHours', () => {
+  describe('setBusyHours', () => {
     it('should include the busy hours with lunchtime for the selected date', () => {
       expect(appointmentTimeService.busyHours.length).toEqual(8);
+    });
+
+    it('should NOT include the busy hour when startDate is NOT defined', () => {
+      appointmentTimeService.appointments[0].startDate = undefined;
+
+      appointmentTimeService.setBusyHours();
+
+      expect(appointmentTimeService.busyHours.length).toEqual(7);
     });
 
     it('should NOT include the lunchtime when barber is NOT defined', () => {

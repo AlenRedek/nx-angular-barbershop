@@ -8,8 +8,8 @@ export class AppointmentTimeService {
 
   public constructor(
     public appointmentData: AppointmentData,
-    private appointments: Array<Appointment>,
-    private services: Array<Service>,
+    public appointments: Array<Appointment>,
+    public services: Array<Service>,
   ) {
     this.setDate();
     this.setBusyHours();
