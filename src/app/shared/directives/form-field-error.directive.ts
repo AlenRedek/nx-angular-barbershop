@@ -3,14 +3,12 @@ import { AbstractControl } from '@angular/forms';
 import { debounceTime, startWith, Subscription } from 'rxjs';
 
 @Directive({
-  selector: '[nxAngularBarbershopFormFieldError]',
+  selector: '[rdxFormFieldError]',
   standalone: true,
 })
 export class FormFieldErrorDirective implements OnDestroy {
-  @Input('nxAngularBarbershopFormFieldError')
-  public set nxAngularBarbershopFormFieldErrorValue(
-    input: AbstractControl | null,
-  ) {
+  @Input('rdxFormFieldError')
+  public set rdxFormFieldErrorValue(input: AbstractControl | null) {
     this.control = input;
     this.errorMessage = this.elementRef.nativeElement.innerText;
 
