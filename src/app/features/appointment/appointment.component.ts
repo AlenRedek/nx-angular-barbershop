@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import dayjs from 'dayjs';
 
 import { AppRoute } from '@app-core/enums';
 import { Appointment, Barber, Service } from '@app-core/models';
 import { BarbersApiService } from '@app-core/services';
 
 import { AppointmentFormComponent } from './components';
-import { AppointmentData } from './models';
 
 @Component({
   selector: 'nx-angular-barbershop-appointment',
@@ -42,14 +40,8 @@ export class AppointmentComponent implements OnInit {
     }
   }
 
-  public async onFormSubmit(data: AppointmentData): Promise<void> {
+  public async onFormSubmit(params: Appointment): Promise<void> {
     try {
-      const params: Appointment = {
-        barberId: data.barber?.id,
-        serviceId: data.service?.id,
-        startDate: dayjs(data.date).unix(),
-      };
-
       await this.barbersApiService.createAppointment(params);
 
       this.router.navigate([AppRoute.Success]);

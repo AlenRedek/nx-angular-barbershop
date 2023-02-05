@@ -51,7 +51,7 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
   public services: Array<Service> = [];
 
   @Output()
-  public formSubmit = new EventEmitter<AppointmentData>();
+  public formSubmit = new EventEmitter<Appointment>();
 
   public appointmentForm = this.formBuilder.group<AppointmentForm>({
     firstName: ['', Validators.required],
@@ -86,9 +86,9 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
     const { barber, service, time } = this.appointmentForm.value;
 
     this.formSubmit.next({
-      barber,
-      date: time?.toDate(),
-      service,
+      barberId: barber?.id,
+      serviceId: service?.id,
+      startDate: time?.unix(),
     });
   }
 
