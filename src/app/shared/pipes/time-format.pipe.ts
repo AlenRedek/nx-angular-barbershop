@@ -7,6 +7,6 @@ import dayjs from 'dayjs';
 })
 export class TimeFormatPipe implements PipeTransform {
   public transform(time: dayjs.Dayjs | null, format = 'HH:mm'): string {
-    return time?.tz().format(format) ?? 'N/A';
+    return time?.local().format(format) ?? 'N/A';
   }
 }
