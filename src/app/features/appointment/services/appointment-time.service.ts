@@ -64,7 +64,7 @@ export class AppointmentTimeService {
       );
 
       if (busyHour) {
-        startService = busyHour.end;
+        startService = busyHour.end.clone();
       } else {
         times.push(startService);
         startService = startService.add(service.durationMinutes, 'minutes');
