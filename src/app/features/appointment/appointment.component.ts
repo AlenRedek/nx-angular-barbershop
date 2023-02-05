@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 
 import { AppRoute } from '@app-core/enums';
 import { Appointment, Barber, Service } from '@app-core/models';
