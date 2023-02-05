@@ -1,12 +1,12 @@
-import { Appointment, BusyHour, LunchTime, Service } from '@app-core/models';
+import { Appointment, LunchTime, Service } from '@app-core/models';
 import { AppointmentData } from '@app-features/appointment/models';
 
 import { AppointmentTimeService } from './appointment-time.service';
 
 describe('AppointmentTimeService', () => {
+  let appointmentTimeService: AppointmentTimeService;
   let appointmentData: AppointmentData;
   let appointments: Array<Appointment>;
-  let busyHours: Array<BusyHour>;
   let lunchTime: LunchTime;
   let services: Array<Service>;
 
@@ -50,7 +50,7 @@ describe('AppointmentTimeService', () => {
       { id: 3, durationMinutes: 50 },
     ] as Array<Service>;
 
-    busyHours = AppointmentTimeService.getBusyHours(
+    appointmentTimeService = new AppointmentTimeService(
       appointmentData,
       appointments,
       services,
@@ -58,30 +58,22 @@ describe('AppointmentTimeService', () => {
   });
 
   describe('getBusyHours', () => {
-    it('should include only the lunch time and busy hours for the selected date', () => {
-      expect(busyHours.length).toEqual(8);
+    it('should include the busy hours with lunchtime for the selected date', () => {
+      expect(appointmentTimeService.busyHours.length).toEqual(8);
     });
 
-    it('should NOT include the lunch time', () => {
-      appointmentData.barber = null;
+    it('should NOT include the lunchtime when barber is NOT defined', () => {
+      appointmentTimeService.appointmentData.barber = null;
 
-      const busyHours = AppointmentTimeService.getBusyHours(
-        appointmentData,
-        appointments,
-        services,
-      );
+      appointmentTimeService.setBusyHours();
 
-      expect(busyHours.length).toEqual(7);
+      expect(appointmentTimeService.busyHours.length).toEqual(7);
     });
 
-    it('should end the lunch time on predefined hour', () => {
-      const busyHours = AppointmentTimeService.getBusyHours(
-        appointmentData,
-        appointments,
-        services,
-      );
-      const lunchTimeAsBusyHour = busyHours.find((busyHour) =>
-        busyHour.start.format('Hmm').startsWith(String(lunchTime.startHour)),
+    it('should end the lunchtime on predefined hour', () => {
+      const lunchTimeAsBusyHour = appointmentTimeService.busyHours.find(
+        (busyHour) =>
+          busyHour.start.format('Hmm').startsWith(String(lunchTime.startHour)),
       );
 
       expect(lunchTimeAsBusyHour?.end.format('mm')).toEqual(
@@ -92,15 +84,15 @@ describe('AppointmentTimeService', () => {
 
   describe('getTimes', () => {
     it('should generate an array of available appointment times', () => {
-      const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
+      const times = appointmentTimeService.getTimes();
 
       expect(times.length).toBeGreaterThan(0);
     });
 
-    it('should return an empty array if appointment data contains null value', () => {
-      appointmentData.barber = null;
+    it('should NOT return any times when barber is NOT defined', () => {
+      appointmentTimeService.appointmentData.barber = null;
 
-      const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
+      const times = appointmentTimeService.getTimes();
 
       expect(times.length).toEqual(0);
     });
@@ -108,7 +100,7 @@ describe('AppointmentTimeService', () => {
     it('should include appointment times only for the selected day of month', () => {
       const dayOfMonth = 1;
 
-      const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
+      const times = appointmentTimeService.getTimes();
       const serviceDays = times
         .map((startService) => Number(startService.format('D')))
         .filter((serviceDay) => serviceDay === dayOfMonth);
@@ -123,15 +115,12 @@ describe('AppointmentTimeService', () => {
     ])(
       'should include appointment times starting at %p for service duration %p minutes',
       (startServices, durationMinutes) => {
-        appointmentData = {
+        appointmentTimeService.appointmentData = {
           ...appointmentData,
           service: { durationMinutes },
         } as AppointmentData;
 
-        const times = AppointmentTimeService.getTimes(
-          appointmentData,
-          busyHours,
-        );
+        const times = appointmentTimeService.getTimes();
         const availableTimes = times
           .map((startService) => Number(startService.format('Hmm')))
           .filter((startService) => startServices.includes(startService));
@@ -143,7 +132,7 @@ describe('AppointmentTimeService', () => {
     it('should NOT include appointment times during busy hours', () => {
       const startBusyHours = [700, 840, 930, 1020, 1100, 1210, 1230, 1310];
 
-      const times = AppointmentTimeService.getTimes(appointmentData, busyHours);
+      const times = appointmentTimeService.getTimes();
       const timesDuringBusyHours = times
         .map((startService) => Number(startService.format('Hmm')))
         .filter((startService) => startBusyHours.includes(startService));

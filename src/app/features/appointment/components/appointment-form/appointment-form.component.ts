@@ -100,20 +100,22 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
         this.appointmentForm.get('service')?.valueChanges ?? of(null),
       ])
         .pipe(
-          filter((data) => data.every((item) => !!item)),
+          filter((appointmentData) => appointmentData.every((item) => !!item)),
           map(([barber, date, service]) => ({ barber, date, service })),
         )
-        .subscribe((data: AppointmentData) => this.updateTimeControl(data)),
+        .subscribe((appointmentData: AppointmentData) =>
+          this.updateTimeControl(appointmentData),
+        ),
     );
   }
 
-  private updateTimeControl(data: AppointmentData): void {
-    const busyHours = AppointmentTimeService.getBusyHours(
-      data,
+  private updateTimeControl(appointmentData: AppointmentData): void {
+    const appointmentTimeService = new AppointmentTimeService(
+      appointmentData,
       this.appointments,
       this.services,
     );
-    this.times = AppointmentTimeService.getTimes(data, busyHours);
+    this.times = appointmentTimeService.getTimes();
 
     this.times.length
       ? this.appointmentForm.get('time')?.enable()
