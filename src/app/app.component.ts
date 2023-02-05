@@ -5,7 +5,7 @@ import { AppointmentComponent } from '@app-features/appointment';
 import { SuccessComponent } from '@app-features/success';
 
 @Component({
-  selector: 'nx-angular-barbershop-root',
+  selector: 'rdx-root',
   standalone: true,
   imports: [RouterModule, AppointmentComponent, SuccessComponent],
   templateUrl: './app.component.html',

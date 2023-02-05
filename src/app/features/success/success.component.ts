@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'nx-angular-barbershop-success',
+  selector: 'rdx-success',
   standalone: true,
   templateUrl: './success.component.html',
   styleUrls: ['./success.component.scss'],
