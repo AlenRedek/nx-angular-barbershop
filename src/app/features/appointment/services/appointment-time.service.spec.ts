@@ -28,7 +28,7 @@ describe('AppointmentTimeService', () => {
           },
         ],
       },
-      date: new Date('2023-02-01T00:00:00'),
+      date: new Date('2023-02-01T00:10:00'),
       service: { durationMinutes: 30 },
     } as AppointmentData;
 
@@ -72,6 +72,21 @@ describe('AppointmentTimeService', () => {
       );
 
       expect(busyHours.length).toEqual(7);
+    });
+
+    it('should end the lunch time on predefined hour', () => {
+      const busyHours = AppointmentTimeService.getBusyHours(
+        appointmentData,
+        appointments,
+        services,
+      );
+      const lunchTimeAsBusyHour = busyHours.find((busyHour) =>
+        busyHour.start.format('Hmm').startsWith(String(lunchTime.startHour)),
+      );
+
+      expect(lunchTimeAsBusyHour?.end.format('mm')).toEqual(
+        String(lunchTime.durationMinutes),
+      );
     });
   });
 
