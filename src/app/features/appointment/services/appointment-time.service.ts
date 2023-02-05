@@ -4,21 +4,22 @@ import { Appointment, BusyHour, Service, WorkHour } from '@app-core/models';
 import { AppointmentData } from '@app-features/appointment/models';
 export class AppointmentTimeService {
   public busyHours: Array<BusyHour> = [];
+  public date: dayjs.Dayjs = dayjs();
 
   public constructor(
     public appointmentData: AppointmentData,
     private appointments: Array<Appointment>,
     private services: Array<Service>,
   ) {
+    this.setDate();
     this.setBusyHours();
   }
 
   public setBusyHours(): void {
-    const { date } = this.appointmentData;
     const busyHours = this.appointments
       .filter((appointment) =>
         this.getDateFromTimestamp(appointment.startDate).isSame(
-          this.getUtcDate(date),
+          this.date,
           'day',
         ),
       )
@@ -44,7 +45,7 @@ export class AppointmentTimeService {
   }
 
   public getTimes(): Array<dayjs.Dayjs> {
-    const { date, service } = this.appointmentData;
+    const { service } = this.appointmentData;
     const times: Array<dayjs.Dayjs> = [];
     const workHour = this.getWorkHour();
 
@@ -52,7 +53,7 @@ export class AppointmentTimeService {
       return times;
     }
 
-    let startService = this.getDateWithHour(workHour.startHour, date);
+    let startService = this.getDateWithHour(workHour.startHour);
 
     while (this.isServiceDuringWorkHour(startService, service, workHour)) {
       const busyHour = this.getBusyHourDuringService(startService, service);
@@ -96,14 +97,13 @@ export class AppointmentTimeService {
   }
 
   private getLunchTime(): Array<BusyHour> {
-    const { date } = this.appointmentData;
     const { lunchTime } = this.getWorkHour() ?? {};
 
     if (!lunchTime) {
       return [];
     }
 
-    const startLunchTime = this.getDateWithHour(lunchTime.startHour, date);
+    const startLunchTime = this.getDateWithHour(lunchTime.startHour);
 
     return [
       {
@@ -114,30 +114,26 @@ export class AppointmentTimeService {
   }
 
   private getWorkHour(): WorkHour | undefined {
-    const { barber, date } = this.appointmentData;
-    const dayNumber = this.getUtcDate(date).day();
+    const { barber } = this.appointmentData;
+    const dayNumber = this.date.day();
 
     return barber?.workHours.find((hours) => hours.day === dayNumber);
   }
 
-  private getDateWithHour(
-    hour: number,
-    date?: AppointmentData['date'],
-  ): dayjs.Dayjs {
-    return this.getUtcDate(date)
-      .set('hour', hour)
-      .set('minute', 0)
-      .set('second', 0);
-  }
-
-  private getUtcDate(date: AppointmentData['date']): dayjs.Dayjs {
-    // Change the time zone without changing the current time
-    return dayjs(date).utc(true);
+  private getDateWithHour(hour: number): dayjs.Dayjs {
+    return this.date.set('hour', hour).set('minute', 0).set('second', 0);
   }
 
   private getDateFromTimestamp(timestamp: number = 0): dayjs.Dayjs {
     // Prevent Dayjs automatic conversion to local time with .utc()
     // True should not be passed because the timestamp is already in UTC
     return dayjs.unix(timestamp).utc();
+  }
+
+  private setDate(): void {
+    const { date } = this.appointmentData;
+
+    // Change the time zone without changing the current time
+    this.date = dayjs(date).utc(true);
   }
 }
