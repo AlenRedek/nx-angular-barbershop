@@ -8,7 +8,7 @@ import { BarbersApiService } from '@app-core/services';
 import { AppointmentFormComponent } from './components';
 
 @Component({
-  selector: 'nx-angular-barbershop-appointment',
+  selector: 'rdx-appointment',
   standalone: true,
   imports: [AppointmentFormComponent],
   templateUrl: './appointment.component.html',

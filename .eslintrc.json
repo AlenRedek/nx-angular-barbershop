@@ -26,7 +26,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "nx-angular-barbershop",
+            "prefix": "rdx",
             "style": "kebab-case"
           }
         ]

@@ -25,7 +25,7 @@ import { FormFieldErrorDirective } from '@app-shared/directives';
 import { TimeFormatPipe } from '@app-shared/pipes';
 
 @Component({
-  selector: 'nx-angular-barbershop-appointment-form',
+  selector: 'rdx-appointment-form',
   standalone: true,
   imports: [
     CommonModule,
