@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 
 import { Appointment, BusyHour, Service, WorkHour } from '@app-core/models';
 import { AppointmentData } from '@app-features/appointment/models';
+
 export class AppointmentTimeService {
   public busyHours: Array<BusyHour> = [];
   public date: dayjs.Dayjs = dayjs();
