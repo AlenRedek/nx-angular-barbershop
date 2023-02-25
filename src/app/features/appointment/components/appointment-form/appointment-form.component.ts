@@ -22,7 +22,7 @@ import {
 } from '@app-features/appointment/models';
 import { AppointmentTimeService } from '@app-features/appointment/services';
 import { FormFieldErrorDirective } from '@app-shared/directives';
-import { TimeFormatPipe } from '@app-shared/pipes';
+import { DateFormatPipe } from '@app-shared/pipes';
 
 @Component({
   selector: 'rdx-appointment-form',
@@ -34,7 +34,7 @@ import { TimeFormatPipe } from '@app-shared/pipes';
     CalendarModule,
     InputTextModule,
     FormFieldErrorDirective,
-    TimeFormatPipe,
+    DateFormatPipe,
   ],
   templateUrl: './appointment-form.component.html',
   styleUrls: ['./appointment-form.component.scss'],
