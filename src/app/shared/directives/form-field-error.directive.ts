@@ -9,13 +9,17 @@ import { debounceTime, startWith, Subscription } from 'rxjs';
 export class FormFieldErrorDirective implements OnDestroy {
   @Input('rdxFormFieldError')
   public set rdxFormFieldErrorValue(input: AbstractControl | null) {
+    if (!input) {
+      return;
+    }
+
     this.control = input;
     this.errorMessage = this.elementRef.nativeElement.innerText;
 
     this.subscribeToControl();
   }
 
-  private control: AbstractControl | null = null;
+  private control!: AbstractControl;
   private errorMessage = '';
   private readonly subscriptions: Subscription = new Subscription();
 
@@ -25,16 +29,28 @@ export class FormFieldErrorDirective implements OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  public isUnsubscribed(): boolean {
+    return this.subscriptions.closed;
+  }
+
+  public isControlInitialized(): boolean {
+    return !!this.control;
+  }
+
+  public getControlText(): string {
+    return this.elementRef.nativeElement.innerText;
+  }
+
   private subscribeToControl(): void {
     this.subscriptions.add(
-      this.control?.valueChanges
+      this.control.valueChanges
         .pipe(debounceTime(500), startWith(null))
-        .subscribe(() => this.handleControlError()),
+        .subscribe(() => this.setControlText()),
     );
   }
 
-  private handleControlError(): void {
-    const isControlInvalid = this.control?.invalid && this.control?.dirty;
+  private setControlText(): void {
+    const isControlInvalid = this.control.invalid && this.control.dirty;
 
     this.elementRef.nativeElement.innerText = isControlInvalid
       ? this.errorMessage
