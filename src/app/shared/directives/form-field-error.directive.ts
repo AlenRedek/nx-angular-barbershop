@@ -25,15 +25,19 @@ export class FormFieldErrorDirective implements OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  public getControlText(): string {
+    return this.elementRef.nativeElement.innerText;
+  }
+
   private subscribeToControl(): void {
     this.subscriptions.add(
       this.control?.valueChanges
         .pipe(debounceTime(500), startWith(null))
-        .subscribe(() => this.handleControlError()),
+        .subscribe(() => this.setControlText()),
     );
   }
 
-  private handleControlError(): void {
+  private setControlText(): void {
     const isControlInvalid = this.control?.invalid && this.control?.dirty;
 
     this.elementRef.nativeElement.innerText = isControlInvalid
