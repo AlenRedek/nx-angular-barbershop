@@ -12,6 +12,12 @@ describe('FormFieldErrorDirective', () => {
     directive = new FormFieldErrorDirective(elementRef);
   });
 
+  it('should unsubscribe from all observables', () => {
+    directive.ngOnDestroy();
+
+    expect(directive.isUnsubscribed()).toEqual(true);
+  });
+
   it('should NOT set the error message when control is valid', () => {
     directive.rdxFormFieldErrorValue = new FormControl();
 
@@ -26,5 +32,11 @@ describe('FormFieldErrorDirective', () => {
     directive.rdxFormFieldErrorValue = control;
 
     expect(directive.getControlText()).toEqual('Error message');
+  });
+
+  it('should NOT initialize the directive when control is NOT defined', () => {
+    directive.rdxFormFieldErrorValue = null;
+
+    expect(directive.isControlInitialized()).toEqual(false);
   });
 });
