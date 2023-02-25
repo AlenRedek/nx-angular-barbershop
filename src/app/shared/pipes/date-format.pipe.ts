@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
   standalone: true,
 })
 export class DateFormatPipe implements PipeTransform {
-  public transform(date: dayjs.Dayjs | null, format?: string): string {
+  public transform(date: dayjs.Dayjs | null, format = 'YYYY-MM-DD'): string {
     return date?.local().format(format) ?? 'N/A';
   }
 }
