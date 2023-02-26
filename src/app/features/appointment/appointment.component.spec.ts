@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 import { BarbersApiService } from '@app-core/services';
 
@@ -7,21 +8,25 @@ import { AppointmentComponent } from './appointment.component';
 describe('AppointmentComponent', () => {
   let component: AppointmentComponent;
   let barbersApiService: Partial<BarbersApiService>;
+  let messageService: Partial<MessageService>;
   let router: Partial<Router>;
-  const consoleErrorSpy = jest.spyOn(console, 'error');
 
   beforeEach(() => {
     barbersApiService = {
-      createAppointment: jest.fn(),
+      createAppointment: jest.fn().mockResolvedValue({}),
       getAppointments: jest.fn().mockResolvedValue([{ id: 1 }]),
       getBarbers: jest.fn().mockResolvedValue([{ id: 2 }]),
       getServices: jest.fn().mockResolvedValue([{ id: 3 }]),
+    };
+    messageService = {
+      add: jest.fn(),
     };
     router = {
       navigate: jest.fn(),
     };
     component = new AppointmentComponent(
       barbersApiService as BarbersApiService,
+      messageService as MessageService,
       router as Router,
     );
   });
@@ -42,7 +47,7 @@ describe('AppointmentComponent', () => {
 
       await component.ngOnInit();
 
-      expect(consoleErrorSpy).toBeCalled();
+      expect(messageService.add).toBeCalled();
     });
   });
 
@@ -61,7 +66,7 @@ describe('AppointmentComponent', () => {
 
       await component.onFormSubmit({});
 
-      expect(consoleErrorSpy).toBeCalled();
+      expect(messageService.add).toBeCalled();
     });
   });
 });

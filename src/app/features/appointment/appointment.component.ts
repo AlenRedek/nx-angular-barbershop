@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 import { AppRoute } from '@app-core/enums';
 import { Appointment, Barber, Service } from '@app-core/models';
@@ -10,7 +12,8 @@ import { AppointmentFormComponent } from './components';
 @Component({
   selector: 'rdx-appointment',
   standalone: true,
-  imports: [AppointmentFormComponent],
+  imports: [ToastModule, AppointmentFormComponent],
+  providers: [MessageService],
   templateUrl: './appointment.component.html',
   styleUrls: ['./appointment.component.scss'],
 })
@@ -21,6 +24,7 @@ export class AppointmentComponent implements OnInit {
 
   public constructor(
     private readonly barbersApiService: BarbersApiService,
+    private readonly messageService: MessageService,
     private readonly router: Router,
   ) {}
 
@@ -36,7 +40,7 @@ export class AppointmentComponent implements OnInit {
       this.barbers = barbers;
       this.services = services;
     } catch {
-      console.error('Error loading data');
+      this.showError('Error loading data');
     }
   }
 
@@ -46,7 +50,15 @@ export class AppointmentComponent implements OnInit {
 
       this.router.navigate([AppRoute.Success]);
     } catch {
-      console.error('Error while creating new appointment');
+      this.showError('Error while creating new appointment');
     }
+  }
+
+  private showError(message: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: message,
+    });
   }
 }
