@@ -9,17 +9,13 @@ describe('DateFormatPipe', () => {
     pipe = new DateFormatPipe();
   });
 
-  describe('transform', () => {
-    const date = dayjs('2023-02-01T17:00:00');
+  it.each([
+    [null, 'N/A', undefined],
+    [dayjs('2023-02-17T17:00:00'), '2023-02-17', undefined],
+    [dayjs('2023-02-17T17:00:00'), '17:00', 'HH:mm'],
+  ])('when date is %p, return %p', (inputDate, formattedDate, format) => {
+    const result = pipe.transform(inputDate, format);
 
-    it.each([
-      [null, 'N/A', undefined],
-      [date, '2023-02-01', undefined],
-      [date, '17:00', 'HH:mm'],
-    ])('when date is %p, return %p', (inputDate, formattedDate, format) => {
-      const result = pipe.transform(inputDate, format);
-
-      expect(result).toEqual(formattedDate);
-    });
+    expect(result).toEqual(formattedDate);
   });
 });

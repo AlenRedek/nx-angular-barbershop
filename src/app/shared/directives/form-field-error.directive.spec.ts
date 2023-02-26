@@ -12,31 +12,35 @@ describe('FormFieldErrorDirective', () => {
     directive = new FormFieldErrorDirective(elementRef);
   });
 
-  it('should unsubscribe from all observables', () => {
-    directive.ngOnDestroy();
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe from all observables', () => {
+      directive.ngOnDestroy();
 
-    expect(directive.isUnsubscribed()).toEqual(true);
+      expect(directive.isUnsubscribed()).toEqual(true);
+    });
   });
 
-  it('should NOT set the error message when control is valid', () => {
-    directive.rdxFormFieldErrorValue = new FormControl();
+  describe('set rdxFormFieldErrorValue', () => {
+    it('should NOT set the error message when control is valid', () => {
+      directive.rdxFormFieldErrorValue = new FormControl();
 
-    expect(directive.getControlText()).toEqual('');
-  });
+      expect(directive.getControlText()).toEqual('');
+    });
 
-  it('should set the error message when control is NOT valid', () => {
-    const control = new FormControl();
-    control.markAsDirty();
-    control.setErrors({ invalid: true });
+    it('should set the error message when control is NOT valid', () => {
+      const control = new FormControl();
+      control.markAsDirty();
+      control.setErrors({ invalid: true });
 
-    directive.rdxFormFieldErrorValue = control;
+      directive.rdxFormFieldErrorValue = control;
 
-    expect(directive.getControlText()).toEqual('Error message');
-  });
+      expect(directive.getControlText()).toEqual('Error message');
+    });
 
-  it('should NOT initialize the directive when control is NOT defined', () => {
-    directive.rdxFormFieldErrorValue = null;
+    it('should NOT initialize the directive when control is NOT defined', () => {
+      directive.rdxFormFieldErrorValue = null;
 
-    expect(directive.isControlInitialized()).toEqual(false);
+      expect(directive.isControlInitialized()).toEqual(false);
+    });
   });
 });
