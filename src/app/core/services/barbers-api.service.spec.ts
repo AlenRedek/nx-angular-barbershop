@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { EMPTY } from 'rxjs';
+import { of } from 'rxjs';
 
 import { BarbersApiService } from './barbers-api.service';
 
@@ -9,8 +9,8 @@ describe('BarbersApiService', () => {
 
   beforeEach(() => {
     httpClient = {
-      get: jest.fn().mockReturnValue(EMPTY),
-      post: jest.fn().mockReturnValue(EMPTY),
+      get: jest.fn().mockReturnValue(of([])),
+      post: jest.fn().mockReturnValue(of({})),
     };
     service = new BarbersApiService(httpClient as HttpClient);
   });
