@@ -31,6 +31,14 @@ describe('AppointmentComponent', () => {
     );
   });
 
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   describe('ngOnInit', () => {
     it('should set the component data', async () => {
       await component.ngOnInit();
@@ -46,6 +54,7 @@ describe('AppointmentComponent', () => {
         .mockRejectedValue(new Error());
 
       await component.ngOnInit();
+      jest.runAllTimers();
 
       expect(messageService.add).toBeCalled();
     });
@@ -65,6 +74,7 @@ describe('AppointmentComponent', () => {
         .mockRejectedValue(new Error());
 
       await component.onFormSubmit({});
+      jest.runAllTimers();
 
       expect(messageService.add).toBeCalled();
     });

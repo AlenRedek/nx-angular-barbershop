@@ -55,10 +55,12 @@ export class AppointmentComponent implements OnInit {
   }
 
   private showError(message: string) {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: message,
-    });
+    setTimeout(() => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: message,
+      });
+    }, 0);
   }
 }
