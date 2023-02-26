@@ -18,30 +18,32 @@ describe('BarbersApiService', () => {
   it('should create appointment via POST request', async () => {
     await service.createAppointment({});
 
-    expect(httpClient.post).toBeCalled();
+    expect(httpClient.post).toBeCalledWith('/api/appointments', {});
   });
 
   it('should retrieve appointments via GET request', async () => {
     await service.getAppointments();
 
-    expect(httpClient.get).toBeCalled();
+    expect(httpClient.get).toBeCalledWith('/api/appointments');
   });
 
   it('should retrieve barbers via GET request', async () => {
     await service.getBarbers();
 
-    expect(httpClient.get).toBeCalled();
+    expect(httpClient.get).toBeCalledWith('/api/barbers');
   });
 
-  it('should retrieve barber gifs via GET request', async () => {
+  it('should retrieve barber gifs via external GET request', async () => {
     await service.getBarberGifs();
 
-    expect(httpClient.get).toBeCalled();
+    expect(httpClient.get).toBeCalledWith(
+      expect.not.stringMatching(/^\/api\//),
+    );
   });
 
   it('should retrieve services via GET request', async () => {
     await service.getServices();
 
-    expect(httpClient.get).toBeCalled();
+    expect(httpClient.get).toBeCalledWith('/api/services');
   });
 });
