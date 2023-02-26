@@ -3,18 +3,6 @@ import { EMPTY } from 'rxjs';
 
 import { BarbersApiService } from './barbers-api.service';
 
-jest.mock('rxjs', () => {
-  const original = jest.requireActual('rxjs');
-
-  return {
-    ...original,
-    lastValueFrom: () =>
-      new Promise((resolve) => {
-        resolve(true);
-      }),
-  };
-});
-
 describe('BarbersApiService', () => {
   let service: BarbersApiService;
   let httpClient: Partial<HttpClient>;
