@@ -11,6 +11,6 @@ export interface AppointmentForm {
   barber: Array<Barber | null | Validators>;
   service: Array<Service | null | Validators>;
   date: Array<Date | null | Validators>;
-  time: Array<Dayjs | Validators>;
+  time: Array<Dayjs | null | Validators>;
   price: Array<string | Validators>;
 }

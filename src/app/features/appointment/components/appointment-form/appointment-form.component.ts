@@ -82,6 +82,10 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  public isUnsubscribed(): boolean {
+    return this.subscriptions.closed;
+  }
+
   public onFormSubmit(): void {
     const { barber, service, time } = this.appointmentForm.value;
 
