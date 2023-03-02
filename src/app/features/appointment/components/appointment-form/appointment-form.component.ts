@@ -8,12 +8,17 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Dayjs } from 'dayjs';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
-import { combineLatest, filter, map, of, Subscription } from 'rxjs';
+import { combineLatest, filter, map, Subscription } from 'rxjs';
 
 import { Appointment, Barber, Service } from '@app-core/models';
 import {
@@ -82,6 +87,10 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  public isUnsubscribed(): boolean {
+    return this.subscriptions.closed;
+  }
+
   public onFormSubmit(): void {
     const { barber, service, time } = this.appointmentForm.value;
 
@@ -95,9 +104,9 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
   private handleFormChanges(): void {
     this.subscriptions.add(
       combineLatest([
-        this.appointmentForm.get('barber')?.valueChanges ?? of(null),
-        this.appointmentForm.get('date')?.valueChanges ?? of(null),
-        this.appointmentForm.get('service')?.valueChanges ?? of(null),
+        this.getAbstractControl('barber').valueChanges,
+        this.getAbstractControl('date').valueChanges,
+        this.getAbstractControl('service').valueChanges,
       ])
         .pipe(
           filter((appointmentData) => appointmentData.every((item) => !!item)),
@@ -118,9 +127,15 @@ export class AppointmentFormComponent implements OnInit, OnDestroy {
     this.times = appointmentTimeService.getTimes();
 
     this.times.length
-      ? this.appointmentForm.get('time')?.enable()
-      : this.appointmentForm.get('time')?.disable();
+      ? this.getAbstractControl('time').enable()
+      : this.getAbstractControl('time').disable();
 
-    this.appointmentForm.get('time')?.patchValue(null);
+    this.getAbstractControl('time').patchValue(null);
+  }
+
+  private getAbstractControl(
+    controlName: keyof AppointmentForm,
+  ): AbstractControl {
+    return this.appointmentForm.get(controlName) as AbstractControl;
   }
 }
