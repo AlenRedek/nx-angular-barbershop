@@ -10,7 +10,9 @@ jobs:
       parallel-commands: |
         yarn nx-cloud record -- yarn nx format:check
       parallel-commands-on-agents: |
-        yarn nx affected --target=lint --parallel=3 & yarn nx affected --target=test --parallel=3 --ci --code-coverage & yarn nx affected --target=build --parallel=3
+        yarn nx affected --target=lint --parallel=3 & yarn nx affected --target=test --parallel=3 --ci --code-coverage --coverageReporters=json-summary & yarn nx affected --target=build --parallel=3
+      artifacts-name: code-coverage-report
+      artifacts-path: ./coverage/nx-angular-barbershop/coverage-summary.json
 
   agents:
     name: Nx Cloud - Agents
