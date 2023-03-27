@@ -13,10 +13,10 @@ describe('AppointmentComponent', () => {
 
   beforeEach(() => {
     barbersApiService = {
-      createAppointment: jest.fn().mockResolvedValue({}),
-      getAppointments: jest.fn().mockResolvedValue([{ id: 1 }]),
-      getBarbers: jest.fn().mockResolvedValue([{ id: 2 }]),
-      getServices: jest.fn().mockResolvedValue([{ id: 3 }]),
+      createAppointment: jest.fn().mockReturnValue({}),
+      getAppointments: jest.fn().mockReturnValue([{ id: 1 }]),
+      getBarbers: jest.fn().mockReturnValue([{ id: 2 }]),
+      getServices: jest.fn().mockReturnValue([{ id: 3 }]),
     };
     messageService = {
       add: jest.fn(),
@@ -51,7 +51,9 @@ describe('AppointmentComponent', () => {
     it('should display error message on API error', async () => {
       jest
         .spyOn(barbersApiService, 'getAppointments')
-        .mockRejectedValue(new Error());
+        .mockImplementation(() => {
+          throw new Error();
+        });
 
       await component.ngOnInit();
       jest.runAllTimers();
@@ -71,7 +73,9 @@ describe('AppointmentComponent', () => {
     it('should display error message on API error', async () => {
       jest
         .spyOn(barbersApiService, 'createAppointment')
-        .mockRejectedValue(new Error());
+        .mockImplementation(() => {
+          throw new Error();
+        });
 
       await component.onFormSubmit({});
       jest.runAllTimers();
