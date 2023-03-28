@@ -13,6 +13,7 @@ export default {
       statements: 100,
     },
   },
+  coverageReporters: ['lcov', 'json-summary'],
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

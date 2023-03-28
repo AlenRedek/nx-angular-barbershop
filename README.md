@@ -1,6 +1,6 @@
 # Nx Angular Barbershop
 
-[![COV](https://alenredek.github.io/nx-angular-barbershop/coverage-badge.svg)](https://github.com/AlenRedek/nx-angular-barbershop/actions)
+[![COV](https://alenredek.github.io/nx-angular-barbershop/coverage-badge.svg)](https://alenredek.github.io/nx-angular-barbershop/lcov-report)
 
 <a href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 

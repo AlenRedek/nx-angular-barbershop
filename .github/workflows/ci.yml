@@ -10,9 +10,9 @@ jobs:
       parallel-commands: |
         yarn nx-cloud record -- yarn nx format:check
       parallel-commands-on-agents: |
-        yarn nx affected --target=lint --parallel=3 & yarn nx affected --target=test --parallel=3 --ci --code-coverage --coverageReporters=json-summary & yarn nx affected --target=build --parallel=3
+        yarn nx affected --target=lint --parallel=3 & yarn nx affected --target=test --parallel=3 --ci --code-coverage & yarn nx affected --target=build --parallel=3
       artifacts-name: code-coverage-report
-      artifacts-path: ./coverage/nx-angular-barbershop/coverage-summary.json
+      artifacts-path: coverage/nx-angular-barbershop
 
   agents:
     name: Nx Cloud - Agents
@@ -29,15 +29,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: code-coverage-report
-          path: ./coverage
+          path: coverage
       - name: Create Code Coverage Badge
         uses: jaywcjlove/coverage-badges-cli@main
         with:
-          source: ./coverage/coverage-summary.json
-          output: ./coverage/coverage-badge.svg
+          source: coverage/coverage-summary.json
+          output: coverage/coverage-badge.svg
           label: Coverage
       - name: Upload Code Coverage Badge
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./coverage
+          publish_dir: coverage
