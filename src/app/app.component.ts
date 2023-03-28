@@ -10,6 +10,4 @@ import { SuccessComponent } from '@app-features/success';
   imports: [RouterModule, AppointmentComponent, SuccessComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  //
-}
+export class AppComponent {}
