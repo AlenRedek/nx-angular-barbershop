@@ -15,6 +15,7 @@ jobs:
         with:
           name: code-coverage-report
           path: coverage
+          workflow: ci.yml
           if_no_artifact_found: warn
       - name: Check Code Coverage Report
         id: check_files
