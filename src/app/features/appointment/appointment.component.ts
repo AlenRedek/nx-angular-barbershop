@@ -21,7 +21,7 @@ export class AppointmentComponent implements OnInit {
   public appointments: Array<Appointment> = [];
   public barbers: Array<Barber> = [];
   public services: Array<Service> = [];
-  //
+
   public constructor(
     private readonly barbersApiService: BarbersApiService,
     private readonly messageService: MessageService,
