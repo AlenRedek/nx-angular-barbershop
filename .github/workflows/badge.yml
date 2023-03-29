@@ -9,13 +9,13 @@ jobs:
   badge:
     name: Code Coverage Badge
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Download Code Coverage Report
-        uses: actions/download-artifact@v3
+        uses: dawidd6/action-download-artifact@v2
         with:
           name: code-coverage-report
           path: coverage
+          if_no_artifact_found: warn
       - name: Check Code Coverage Report
         id: check_files
         uses: andstor/file-existence-action@v2
