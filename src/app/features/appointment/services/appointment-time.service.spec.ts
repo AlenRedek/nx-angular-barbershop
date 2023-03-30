@@ -11,7 +11,8 @@ describe('AppointmentTimeService', () => {
   let services: Array<Service>;
 
   beforeEach(() => {
-    jest.useFakeTimers().setSystemTime(new Date('2023-01-31T00:00:00'));
+    const currentTime = new Date('2023-02-01T08:17:00Z');
+    jest.useFakeTimers().setSystemTime(currentTime);
 
     lunchTime = {
       startHour: 11,
@@ -28,8 +29,8 @@ describe('AppointmentTimeService', () => {
           },
         ],
       },
-      date: new Date('2023-02-01T00:10:00'),
-      service: { durationMinutes: 30 },
+      date: currentTime,
+      service: { durationMinutes: 20 },
     } as AppointmentData;
 
     appointments = [
@@ -117,9 +118,9 @@ describe('AppointmentTimeService', () => {
     });
 
     it.each([
-      [[750, 810, 900, 1130, 1150, 1400, 1420, 1440], 20],
-      [[750, 900, 1130, 1400, 1430], 30],
-      [[750, 1400], 50],
+      [[900, 1130, 1150, 1400, 1420, 1440], 20],
+      [[900, 1130, 1400, 1430], 30],
+      [[1400], 50],
     ])(
       'should include appointment times starting at %p for service duration %p minutes',
       (startServices, durationMinutes) => {
@@ -129,11 +130,30 @@ describe('AppointmentTimeService', () => {
         } as AppointmentData;
 
         const times = appointmentTimeService.getTimes();
+        const availableTimes = times.map((startService) =>
+          Number(startService.format('Hmm')),
+        );
+
+        expect(availableTimes).toEqual(startServices);
+      },
+    );
+
+    it.each([
+      [new Date('2023-02-01T07:00:00Z'), 2],
+      [new Date('2023-02-01T08:17:00Z'), 0],
+      [new Date('2023-02-02T07:00:00Z'), 2],
+    ])(
+      'when the current time is %p, the number of available appointment times before that time should be %p',
+      (currentTime, length) => {
+        jest.useFakeTimers().setSystemTime(currentTime);
+        const startServices = [750, 810];
+
+        const times = appointmentTimeService.getTimes();
         const availableTimes = times
           .map((startService) => Number(startService.format('Hmm')))
           .filter((startService) => startServices.includes(startService));
 
-        expect(availableTimes).toEqual(startServices);
+        expect(availableTimes.length).toEqual(length);
       },
     );
 
