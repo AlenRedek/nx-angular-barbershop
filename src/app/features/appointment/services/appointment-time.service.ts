@@ -54,7 +54,7 @@ export class AppointmentTimeService {
       return times;
     }
 
-    let startService = this.getDateWithHour(workHour.startHour);
+    let startService = this.getStartHour(workHour.startHour);
 
     while (this.isServiceDuringWorkHour(startService, service, workHour)) {
       const busyHour = this.getBusyHourDuringService(startService, service);
@@ -119,6 +119,17 @@ export class AppointmentTimeService {
     const dayNumber = this.date.day();
 
     return barber?.workHours.find((hours) => hours.day === dayNumber);
+  }
+
+  private getStartHour(hour: number): dayjs.Dayjs {
+    const currentTime = Number(dayjs().utc().format('H'));
+    let startHour = hour;
+
+    if (this.date.isToday()) {
+      startHour = currentTime > hour ? currentTime + 1 : hour;
+    }
+
+    return this.getDateWithHour(startHour);
   }
 
   private getDateWithHour(hour: number): dayjs.Dayjs {
