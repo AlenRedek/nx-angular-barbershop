@@ -106,14 +106,14 @@ describe('AppointmentTimeService', () => {
     });
 
     it('should include appointment times only for the selected day of month', () => {
-      const dayOfMonth = 1;
+      const currentDate = '2023-02-01';
 
       const times = appointmentTimeService.getTimes();
       const serviceDays = times
-        .map((startService) => Number(startService.format('D')))
-        .filter((serviceDay) => serviceDay === dayOfMonth);
+        .map((startService) => startService.format('YYYY-MM-DD'))
+        .every((serviceDay) => serviceDay === currentDate);
 
-      expect(serviceDays.length).toEqual(times.length);
+      expect(serviceDays).toEqual(true);
     });
 
     it.each([
